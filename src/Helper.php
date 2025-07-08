@@ -17,19 +17,31 @@ namespace Dotclear\Plugin\EmbedMedia;
 
 use DOMDocument;
 use Dotclear\App;
+use Dotclear\Helper\Html\Html;
+use Dotclear\Helper\Network\HttpClient;
+use SimpleXMLElement;
+use stdClass;
 
 class Helper
 {
     /**
-     * @var array<string, array{0: string, 1: bool}>    $providers
+     * @var array<string, array{0: string, 1: bool}>
      *
      * Key = regular expression/URL
      * Value = [ oembed service provider URL, use regular expression (see key) ]
      */
     protected array $providers = [];
 
+    protected int $error_code = 200;
+
+    /**
+     * @var array<string, callable>
+     */
+    protected array $parsers = [];
+
     public function __construct(
         protected ?string $host,
+        protected bool $discover = true,
     ) {
         $this->host      = $host ?? App::blog()->url();
         $this->providers = [
@@ -94,32 +106,234 @@ class Helper
             '#https?://bsky.app/profile/.*/post/.*#i'                             => ['https://embed.bsky.app/oembed', true],
             '#https?://(www\.)?canva\.com/design/.*/view.*#i'                     => ['https://canva.com/_oembed', true],
         ];
+
+        // If CURL is not available disabled discover capabilities
+        if (!function_exists('curl_version')) {
+            $this->discover = false;
+        }
+
+        // Set response parsers
+        $this->parsers = [
+            'json' => Helper::parseJson(...),
+            'xml'  => Helper::parseXml(...),
+        ];
+    }
+
+    /**
+     * Takes a URL and attempts to return the oEmbed HTML data.
+     *
+     * @param string                    $url  The URL to the content that should be attempted to be embedded.
+     * @param array<string, mixed>      $args Optional. Additional arguments for retrieving embed HTML.
+     *
+     * @return string|false The result in the form of an HTML string on success, false on failure.
+     */
+    public function getHtml(string $url, array $args = []): string|bool
+    {
+        $provider = $this->getProvider($url);
+        if (!$provider) {
+            return false;
+        }
+
+        $data = $this->fetch($provider, $url, $args);
+
+        return $data === false ? false : $this->dataToHTML($data, $url);
+    }
+
+    /**
+     * Converts a data object fetch() and returns the HTML.
+     *
+     * @param object    $data A data object result from an oEmbed provider.
+     * @param string    $url  The URL to the content that is desired to be embedded.
+     *
+     * @return string|false The HTML needed to embed on success, false on failure.
+     */
+    public function dataToHTML(object $data, string $url): string|bool
+    {
+        $return = false;
+
+        switch ($data?->type) { // @phpstan-ignore-line
+            case 'photo':
+                if (!$data?->url || !$data?->width || !$data?->height) {     // @phpstan-ignore-line
+                    break;
+                }
+                if (!is_string($data->url) || !is_numeric($data->width) || !is_numeric($data->height)) {
+                    break;
+                }
+
+                if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+                    break;
+                }
+                if (filter_var($data->url, FILTER_VALIDATE_URL) === false) {
+                    break;
+                }
+
+                $title  = $data?->title && is_string($data->title) ? (string) $data->title : '';    // @phpstan-ignore-line
+                $return = '<a href="' . filter_var($url, FILTER_VALIDATE_URL) . '"><img src="' . filter_var($data->url, FILTER_VALIDATE_URL) . '" alt="' . Html::escapeHTML($title) . '" width="' . Html::escapeHTML((string) $data->width) . '" height="' . Html::escapeHTML((string) $data->height) . '" /></a>';
+
+                break;
+
+            case 'video':
+            case 'rich':
+                if ($data?->html && is_string($data->html)) {   // @phpstan-ignore-line
+                    $return = $data->html;
+                }
+
+                break;
+
+            case 'link':
+                if (filter_var($url, FILTER_VALIDATE_URL) === false) {
+                    break;
+                }
+
+                if ($data?->title && is_string($data->title)) { // @phpstan-ignore-line
+                    $return = '<a href="' . filter_var($url, FILTER_VALIDATE_URL) . '">' . Html::escapeHTML($data->title) . '</a>';
+                }
+
+                break;
+
+            default:
+                $return = false;
+        }
+
+        return $return;
+    }
+
+    /**
+     * Connects to an oEmbed provider and returns the result.
+     *
+     * @param string                 $provider The URL to the oEmbed provider.
+     * @param string                 $url      The URL to the content that is desired to be embedded.
+     * @param array<string, mixed>   $args     Optional. Additional arguments for retrieving embed HTML.
+     *
+     * @return object|false The result in the form of an object on success, false on failure.
+     */
+    protected function fetch(string $provider, string $url, array $args = []): object|false
+    {
+        $attributes = http_build_query(
+            [
+                ...$args,   // May contains maxwidth => ??? and maxheight => ??? (pixels)
+                'url' => urlencode($url),
+                'dnt' => 1, // Do not track
+            ],
+            '',
+            '&'
+        );
+
+        $provider .= (str_contains($provider, '?') ? '&' : '?') . $attributes;
+
+        foreach (['json', 'xml'] as $format) {
+            $result = $this->fetchWithFormat($provider, $format);
+            if ($this->error_code === 501) {    // 501 = Not implemented
+                continue;
+            }
+
+            return $result;
+        }
+
+        return false;
+    }
+
+    /**
+     * Fetches result from an oEmbed provider for a specific format and complete provider URL
+     *
+     * @param string    $provider      URL to the provider with full arguments list (url, maxheight, etc.)
+     * @param string    $format        Format to use.
+     *
+     * @return object|false  The result in the form of an object on success, false on failure.
+     */
+    protected function fetchWithFormat(string $provider, string $format): object|false
+    {
+        $provider .= (str_contains($provider, '?') ? '&' : '?') . http_build_query(['format' => $format], '', '&');
+
+        $path = '';
+        if (($client = HttpClient::initClient($provider, $path)) === false) {
+            return false;
+        }
+
+        $client->setOutput(null);
+        $client->get($path);
+
+        $this->error_code = $client->getStatus();
+        if ($this->error_code === 200) {
+            $body = $client->getContent();
+        } else {
+            return false;
+        }
+
+        return $this->parsers[$format]($body);
+    }
+
+    /**
+     * Parses a json response body.
+     *
+     * @return object|false
+     */
+    private function parseJson(string $body): object|bool
+    {
+        $data = json_decode(trim($body));
+
+        return ($data && is_object($data)) ? $data : false;
+    }
+
+    /**
+     * Parses an XML response body.
+     *
+     * @return object|false
+     */
+    private function parseXml(string $body): object|bool
+    {
+        $errors = libxml_use_internal_errors(true);
+        $return = $this->parseXmlBody($body);
+        libxml_use_internal_errors($errors);
+
+        return $return;
+    }
+
+    /**
+     * Serves as a helper function for parsing an XML response body.
+     *
+     * @return object|false
+     */
+    private function parseXmlBody(string $body): object|bool
+    {
+        $dom = new DOMDocument();
+        if (!$dom->loadXML($body)) {
+            return false;
+        }
+
+        if (isset($dom->doctype)) {
+            return false;
+        }
+
+        foreach ($dom->childNodes as $child) {
+            if (XML_DOCUMENT_TYPE_NODE === $child->nodeType) {
+                return false;
+            }
+        }
+
+        $xml = simplexml_import_dom($dom);
+        if (!$xml instanceof SimpleXMLElement) {
+            return false;
+        }
+
+        $return = new stdClass();
+        foreach ($xml as $key => $value) {
+            $return->$key = (string) $value;
+        }
+
+        return $return;
     }
 
     /**
      * Takes a URL and returns the corresponding oEmbed provider's URL, if there is one.
      *
-     * @param string                        $url  The URL to the content.
-     * @param string|array<string, mixed>   $args
-     *     Optional. Additional provider arguments. Default empty.
-     *
-     *     @type bool $discover Optional. Determines whether to attempt to discover link tags
-     *                          at the given URL for an oEmbed provider when the provider URL
-     *                          is not found in the built-in providers list. Default true.
+     * @param string    $url        The URL to the content.
      *
      * @return string|false The oEmbed provider URL on success, false on failure.
      */
-    public function getProvider(string $url, string|array $args = ''): string|bool
+    protected function getProvider(string $url): string|bool
     {
         $provider = false;
-
-        if (!is_array($args)) {
-            $args = [$args];
-        }
-
-        if (!isset($args['discover'])) {
-            $args['discover'] = true;
-        }
 
         foreach ($this->providers as $matchmask => $data) {
             [$providerurl, $regex] = $data;
@@ -136,7 +350,7 @@ class Helper
             }
         }
 
-        if (!$provider && $args['discover']) {
+        if (!$provider && $this->discover) {
             $provider = $this->discover($url);
         }
 
@@ -150,7 +364,7 @@ class Helper
      *
      * @return  string|false The oEmbed provider URL on success, false on failure.
      */
-    public function discover(string $url): string|bool
+    protected function discover(string $url): string|bool
     {
         $providers = [];
 
