@@ -22,7 +22,7 @@ use Dotclear\Helper\Network\HttpClient;
 use SimpleXMLElement;
 use stdClass;
 
-class Helper
+class Embed
 {
     /**
      * @var array<string, array{0: string, 1: bool}>
