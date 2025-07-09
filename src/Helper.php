@@ -245,6 +245,8 @@ class Helper
     {
         $provider .= (str_contains($provider, '?') ? '&' : '?') . http_build_query(['format' => $format], '', '&');
 
+        // Use HttpClient in order to get return status code
+
         $path = '';
         if (($client = HttpClient::initClient($provider, $path)) === false) {
             return false;

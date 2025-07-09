@@ -12,3 +12,6 @@ A predefined list of oEmbed API (Youtube, Vimeo, Flickr, …) is used if possibl
 
 Note: Intended to replace externalMedia Dotclear 2 plugin, which now requires a paid API key.
 
+## Further possible developments
+
+Use <https://oembed.com/providers.json> as source of oEmbed entrypoint API
