@@ -40,7 +40,7 @@ class Helper
     protected array $parsers = [];
 
     public function __construct(
-        protected ?string $host,
+        protected ?string $host = null,
         protected bool $discover = true,
     ) {
         $this->host      = $host ?? App::blog()->url();
@@ -147,7 +147,7 @@ class Helper
      *
      * @return string|false The HTML needed to embed on success, false on failure.
      */
-    public function dataToHTML(object $data, string $url): string|bool
+    protected function dataToHTML(object $data, string $url): string|bool
     {
         $return = false;
 
