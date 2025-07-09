@@ -283,19 +283,7 @@ class Helper
     private function parseXml(string $body): object|bool
     {
         $errors = libxml_use_internal_errors(true);
-        $return = $this->parseXmlBody($body);
-        libxml_use_internal_errors($errors);
 
-        return $return;
-    }
-
-    /**
-     * Serves as a helper function for parsing an XML response body.
-     *
-     * @return object|false
-     */
-    private function parseXmlBody(string $body): object|bool
-    {
         $dom = new DOMDocument();
         if (!$dom->loadXML($body)) {
             return false;
@@ -320,6 +308,8 @@ class Helper
         foreach ($xml as $key => $value) {
             $return->$key = (string) $value;
         }
+
+        libxml_use_internal_errors($errors);
 
         return $return;
     }
