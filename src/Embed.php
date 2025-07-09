@@ -32,7 +32,10 @@ class Embed
      */
     protected array $providers = [];
 
-    protected int $error_code = 200;
+    /**
+     * Last error code from HTTP fetch
+     */
+    protected int $error_code = 0;
 
     /**
      * @var array<string, callable>
@@ -114,8 +117,8 @@ class Embed
 
         // Set response parsers
         $this->parsers = [
-            'json' => Helper::parseJson(...),
-            'xml'  => Helper::parseXml(...),
+            'json' => self::parseJson(...),
+            'xml'  => self::parseXml(...),
         ];
     }
 
@@ -137,6 +140,16 @@ class Embed
         $data = $this->fetch($provider, $url, $args);
 
         return $data === false ? false : $this->dataToHTML($data, $url);
+    }
+
+    /**
+     * Gets the last error code.
+     *
+     * @return     int   The last error code.
+     */
+    public function getLastErrorCode(): int
+    {
+        return $this->error_code;
     }
 
     /**
@@ -212,7 +225,7 @@ class Embed
         $attributes = http_build_query(
             [
                 ...$args,   // May contains maxwidth => ??? and maxheight => ??? (pixels)
-                'url' => urlencode($url),
+                'url' => $url,
                 'dnt' => 1, // Do not track
             ],
             '',
