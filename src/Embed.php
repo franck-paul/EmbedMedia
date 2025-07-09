@@ -128,6 +128,8 @@ class Embed
      * @param string                    $url  The URL to the content that should be attempted to be embedded.
      * @param array<string, mixed>      $args Optional. Additional arguments for retrieving embed HTML.
      *
+     * $args may contains maxwidth => ??? and maxheight => ??? (in pixels)
+     *
      * @return string|false The result in the form of an HTML string on success, false on failure.
      */
     public function getHtml(string $url, array $args = []): string|bool

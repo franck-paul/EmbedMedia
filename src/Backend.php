@@ -15,6 +15,7 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\EmbedMedia;
 
+use Dotclear\App;
 use Dotclear\Core\Process;
 
 class Backend extends Process
@@ -33,6 +34,9 @@ class Backend extends Process
         if (!self::status()) {
             return false;
         }
+
+        // Register REST methods
+        App::rest()->addFunction('embedMedia', BackendRest::embedMedia(...));
 
         return true;
     }
