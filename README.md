@@ -15,5 +15,3 @@ Note: Intended to replace externalMedia Dotclear 2 plugin, which now requires a 
 ## Further possible developments
 
 Use <https://oembed.com/providers.json> as source of oEmbed entrypoint API
-
-If Height or Width is not provided, use plugin setting for ratio (4/3, 16/9, …) to compute missing value

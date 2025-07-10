@@ -15,6 +15,8 @@ declare(strict_types=1);
 
 namespace Dotclear\Plugin\EmbedMedia;
 
+use Dotclear\App;
+
 class BackendRest
 {
     /**
@@ -32,11 +34,40 @@ class BackendRest
 
         $url = $get['url'] ?? '';
         if ($url) {
-            $embed     = new Embed();
-            $maxwidth  = (int) ($get['maxwidth'] ?? 960);   // Should use blog parameter settings for video ?
-            $maxheight = (int) ($get['maxheight'] ?? 540);  // Should use blog parameter settings for video ?
+            $maxwidth  = (int) ($get['maxwidth'] ?? 0);
+            $maxheight = (int) ($get['maxheight'] ?? 0);
 
-            $html = $embed->getHtml($url, [
+            if ($maxwidth <= 0 || $maxheight <= 0) {
+                // Prepare width and height based on video default size (blog parameter)
+                $videowidth  = (int) App::blog()->settings()->system->media_video_width ;
+                $videoheight = (int) App::blog()->settings()->system->media_video_height;
+                if ($videowidth <= 0 && $videoheight <= 0) {
+                    $videowidth  = 400;
+                    $videoheight = 300;
+                }
+
+                // Compute ratio
+                if ($videowidth > 0 && $videoheight > 0) {
+                    $ratio = (float) $videowidth / (float) $videoheight;
+                } else {
+                    $ratio = 4.0 / 3.0; // Use a classical 4/3 ration
+                }
+
+                // Adjust width and height
+                if ($maxwidth <= 0 && $maxheight <= 0) {
+                    $maxwidth  = $videowidth;
+                    $maxheight = $videoheight;
+                } elseif ($maxheight <= 0) {
+                    // Compute height using width and ratio
+                    $maxheight = (int) ((float) $maxwidth / $ratio);
+                } else {
+                    // Compute width using width and ratio
+                    $maxwidth = (int) ((float) $maxheight * $ratio);
+                }
+            }
+
+            $embed = new Embed();
+            $html  = $embed->getHtml($url, [
                 'maxwidth'  => $maxwidth,
                 'maxheight' => $maxheight,
             ]);
@@ -45,6 +76,11 @@ class BackendRest
                 $payload = [
                     'ret'  => true,
                     'html' => $html,
+                ];
+            } else {
+                $payload = [
+                    'ret'   => false,
+                    'error' => $embed->getLastErrorCode(),  // HTTP error if any
                 ];
             }
         }
