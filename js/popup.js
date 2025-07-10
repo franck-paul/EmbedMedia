@@ -1,24 +1,18 @@
-/*global $, dotclear */
+/*global dotclear */
 'use strict';
 
 dotclear.ready(() => {
   Object.assign(dotclear, dotclear.getData('embed_media'));
 
-  $('#media-insert-cancel').on('click', () => {
-    window.close();
-  });
+  const form = document.querySelector('#media-insert-form');
+  if (!form) return;
 
-  const sendClose = (object) => {
-    const insert_form = $('#media-insert-form').get(0);
-    if (insert_form === undefined) {
-      return;
-    }
-
+  const sendClose = (object, url) => {
     const tb = window.opener.the_toolbar;
     const { data } = tb.elements.embedmedia;
 
-    data.alignment = $('input[name="alignment"]:checked', insert_form).val();
-    data.url = insert_form.m_url.value;
+    data.alignment = form.querySelector('input[name="media-insert-alignment"]:checked')?.value;
+    data.url = url;
     data.m_object = object;
 
     tb.elements.embedmedia.fncall[tb.mode].call(tb);
@@ -26,7 +20,9 @@ dotclear.ready(() => {
   };
 
   const embedMedia = (event) => {
-    const url = $('#media-insert-form').get(0).m_url.value;
+    const url = form.querySelector('#media-insert-url').value;
+    const maxwidth = Number.parseInt(form.querySelector('#media-insert-maxwidth')?.value);
+    const maxheight = Number.parseInt(form.querySelector('#media-insert-maxheight')?.value);
     // Call REST method to get embedded media HTML source code if possible
     dotclear.jsonServicesGet(
       'embedMedia',
@@ -39,16 +35,24 @@ dotclear.ready(() => {
           return;
         }
         // Use data.html
-        sendClose(data.html);
+        sendClose(data.html, url);
       },
       {
         url,
+        maxwidth,
+        maxheight,
       },
     );
-    event?.preventDefault();
   };
 
-  $('#media-insert-ok').on('click', (event) => embedMedia(event));
+  document.querySelector('#media-insert-cancel')?.addEventListener('click', (event) => {
+    event?.preventDefault();
+    window.close();
+  });
 
-  dotclear.enterKeyInForm('media-insert-form', 'media-insert-ok', 'media-insert-cancel');
+  document.querySelector('#media-insert-ok')?.addEventListener('click', (event) => {
+    embedMedia(event);
+  });
+
+  dotclear.enterKeyInForm('#media-insert-form', '#media-insert-ok', '#media-insert-cancel');
 });

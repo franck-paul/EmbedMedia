@@ -20,8 +20,10 @@ use Dotclear\Core\Backend\Notices;
 use Dotclear\Core\Backend\Page;
 use Dotclear\Core\Process;
 use Dotclear\Helper\Html\Form\Button;
+use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
 use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Number;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Radio;
 use Dotclear\Helper\Html\Form\Submit;
@@ -59,7 +61,7 @@ class Manage extends Process
 
         $head = My::jsLoad('popup.js') .
             Page::jsJson('embed_media', ['embed_media' => [
-                'request_error' => __('oEmbed API error: '),
+                'request_error' => __('oEmbed HTTP error: '),
             ]]);
 
         Page::openModule(My::name(), $head);
@@ -81,7 +83,7 @@ class Manage extends Process
         $aligns = [];
         $i      = 0;
         foreach ($i_align as $k => $v) {
-            $aligns[] = (new Radio(['alignment', 'alignment' . ++$i], (bool) $v[1]))
+            $aligns[] = (new Radio(['media-insert-alignment', 'alignment' . ++$i], (bool) $v[1]))
                 ->value($k)
                 ->label((new Label($v[0], Label::INSIDE_TEXT_AFTER)));
         }
@@ -95,15 +97,36 @@ class Manage extends Process
                     (new Text(null, __('Please enter the URL of the page containing the media you want to include in your post.'))),
                 ]),
                 (new Para())->items([
-                    (new Url('m_url'))
+                    (new Url('media-insert-url'))
                         ->size(50)
                         ->maxlength(255)
                         ->label((new Label(__('Page URL:'), Label::INSIDE_TEXT_BEFORE))),
                 ]),
-                (new Text('h3', __('Media alignment'))),
-                (new Para())->items([
-                    ...$aligns,
-                ]),
+                (new Div())
+                    ->class('two-boxes')
+                    ->items([
+                        (new Text('h3', __('Media alignment'))),
+                        (new Para())->items([
+                            ...$aligns,
+                        ]),
+                    ]),
+                (new Div())
+                    ->class('two-boxes')
+                    ->items([
+                        (new Text('h3', __('Maximum size (in pixels)'))),
+                        (new Para())
+                            ->class('field')
+                            ->items([
+                                (new Number('media-insert-maxwidth', 0, 999, (int) App::blog()->settings()->system->media_video_width))
+                                    ->label(new Label(__('Width'), Label::OL_TF)),
+                            ]),
+                        (new Para())
+                            ->class('field')
+                            ->items([
+                                (new Number('media-insert-maxheight', 0, 999, (int) App::blog()->settings()->system->media_video_height))
+                                    ->label(new Label(__('Height'), Label::OL_TF)),
+                            ]),
+                    ]),
                 (new Para())
                     ->separator(' ')
                     ->class('form-buttons')
