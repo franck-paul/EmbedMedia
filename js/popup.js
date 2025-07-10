@@ -2,7 +2,7 @@
 'use strict';
 
 dotclear.ready(() => {
-  Object.assign(dotclear, dotclear.getData('embed_media'));
+  Object.assign(dotclear, dotclear.getData('embed_media', false, false));
 
   const form = document.querySelector('#media-insert-form');
   if (!form) return;
@@ -20,6 +20,10 @@ dotclear.ready(() => {
   };
 
   const embedMedia = (event) => {
+    // Stop event propagation as we catch submit from differente source (form, input, …)
+    event?.preventDefault();
+    event?.stopPropagation();
+
     const url = form.querySelector('#media-insert-url').value;
     const maxwidth = Number.parseInt(form.querySelector('#media-insert-maxwidth')?.value);
     const maxheight = Number.parseInt(form.querySelector('#media-insert-maxheight')?.value);
@@ -28,10 +32,13 @@ dotclear.ready(() => {
       'embedMedia',
       (data) => {
         if (data.ret === false) {
+          event?.preventDefault();
+          event?.stopPropagation();
           if (data?.error) {
-            window.alert(`${dotclear.embed_media.request_error + data.error}`);
+            window.alert(`${dotclear.embed_media.request_error} ${data.error}`);
+          } else {
+            window.alert(`${dotclear.embed_media.unknown_error}`);
           }
-          window.close();
           return;
         }
         // Use data.html
@@ -42,6 +49,7 @@ dotclear.ready(() => {
         maxwidth,
         maxheight,
       },
+      (_error) => {},
     );
   };
 
@@ -51,6 +59,10 @@ dotclear.ready(() => {
   });
 
   document.querySelector('#media-insert-ok')?.addEventListener('click', (event) => {
+    embedMedia(event);
+  });
+
+  form.addEventListener('submit', (event) => {
     embedMedia(event);
   });
 

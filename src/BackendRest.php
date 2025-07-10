@@ -78,15 +78,15 @@ class BackendRest
                 'maxheight' => $maxheight,
             ]);
 
-            if ($html !== false) {
-                $payload = [
-                    'ret'  => true,
-                    'html' => $html,
-                ];
-            } else {
+            if ($html === false) {
                 $payload = [
                     'ret'   => false,
                     'error' => $embed->getLastErrorCode(),  // HTTP error if any
+                ];
+            } else {
+                $payload = [
+                    'ret'  => true,
+                    'html' => $html,
                 ];
             }
         }

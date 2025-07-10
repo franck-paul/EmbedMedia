@@ -23,6 +23,7 @@ use Dotclear\Helper\Html\Form\Button;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
 use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Note;
 use Dotclear\Helper\Html\Form\Number;
 use Dotclear\Helper\Html\Form\Para;
 use Dotclear\Helper\Html\Form\Radio;
@@ -61,7 +62,8 @@ class Manage extends Process
 
         $head = My::jsLoad('popup.js') .
             Page::jsJson('embed_media', ['embed_media' => [
-                'request_error' => __('oEmbed HTTP error: '),
+                'request_error' => __('oEmbed HTTP error:'),
+                'unknown_error' => __('Unknown error has occured, please verify URL or retry it later.'),
             ]]);
 
         Page::openModule(My::name(), $head);
@@ -126,16 +128,19 @@ class Manage extends Process
                                 (new Number('media-insert-maxheight', 0, 999, (int) App::blog()->settings()->system->media_video_height))
                                     ->label(new Label(__('Height'), Label::OL_TF)),
                             ]),
+                        (new Note())
+                            ->class(['form-note', 'info'])
+                            ->text(__('The default width and height are based on video insertion sizes defined in blog parameters.')),
                     ]),
                 (new Para())
                     ->separator(' ')
                     ->class('form-buttons')
                     ->items([
                         (new Submit('media-insert-ok'))
-                            ->class('submit')
+                            ->class(['submit'])
                             ->value(__('Insert')),
                         (new Button('media-insert-cancel'))
-                            ->class('submit')
+                            ->class('reset')
                             ->value(__('Cancel')),
                         ... My::hiddenFields(),
                     ]),
