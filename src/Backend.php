@@ -35,8 +35,16 @@ class Backend extends Process
             return false;
         }
 
-        // Register REST methods
-        App::rest()->addFunction('embedMedia', BackendRest::embedMedia(...));
+        $settings = My::settings();
+        if ($settings->active) {
+            // Register REST methods
+            App::rest()->addFunction('embedMedia', BackendRest::embedMedia(...));
+
+            App::behavior()->addBehaviors([
+                'adminPostEditor'      => BackendBehaviors::adminPostEditor(...),
+                'ckeditorExtraPlugins' => BackendBehaviors::ckeditorExtraPlugins(...),
+            ]);
+        }
 
         return true;
     }

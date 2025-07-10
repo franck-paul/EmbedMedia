@@ -51,6 +51,12 @@ class BackendRest
                     $ratio = (float) $videowidth / (float) $videoheight;
                 } else {
                     $ratio = 4.0 / 3.0; // Use a classical 4/3 ration
+                    // Adjust default width and height
+                    if ($videoheight <= 0) {
+                        $videoheight = (int) ((float) $videowidth / $ratio);
+                    } else {
+                        $videowidth = (int) ((float) $videoheight * $ratio);
+                    }
                 }
 
                 // Adjust width and height

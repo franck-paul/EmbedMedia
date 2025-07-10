@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 EmbedMedia module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-08 11:59+0200\n"
+"POT-Creation-Date: 2025-07-10 11:56+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -20,4 +20,34 @@ msgid "Embed Media"
 msgstr ""
 
 msgid "Embed external media from Internet"
+msgstr ""
+
+msgid "Embed external media"
+msgstr ""
+
+msgid "URL"
+msgstr ""
+
+msgid "Page URL:"
+msgstr ""
+
+msgid "URL cannot be empty."
+msgstr ""
+
+msgid "Alignment"
+msgstr ""
+
+msgid "Media alignment:"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Left"
+msgstr ""
+
+msgid "Right"
+msgstr ""
+
+msgid "Center"
 msgstr ""
