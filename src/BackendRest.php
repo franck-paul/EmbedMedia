@@ -78,17 +78,13 @@ class BackendRest
                 'maxheight' => $maxheight,
             ]);
 
-            if ($html === false) {
-                $payload = [
-                    'ret'   => false,
-                    'error' => $embed->getLastErrorCode(),  // HTTP error if any
-                ];
-            } else {
-                $payload = [
-                    'ret'  => true,
-                    'html' => $html,
-                ];
-            }
+            $payload = $html === false ? [
+                'ret'   => false,
+                'error' => $embed->getLastErrorCode(),  // HTTP error if any
+            ] : [
+                'ret'  => true,
+                'html' => $html,
+            ];
         }
 
         return $payload;
