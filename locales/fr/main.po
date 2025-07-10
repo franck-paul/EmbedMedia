@@ -10,7 +10,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 EmbedMedia module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-10 11:56+0200\n"
+"POT-Creation-Date: 2025-07-10 19:27+0200\n"
 "PO-Revision-Date: 2025-07-08 12:18+0000\n"
 "Last-Translator: Franck Paul <carnet.franck.paul@gmail.com>, 2025\n"
 "Language-Team: French (https://app.transifex.com/open-time/teams/109573/fr/)\n"
@@ -55,3 +55,43 @@ msgstr "Droite"
 
 msgid "Center"
 msgstr "Centre"
+
+msgid "oEmbed HTTP error:"
+msgstr "Erreur HTTP oEmbed :"
+
+msgid "Unknown error has occured, please verify URL or retry it later."
+msgstr ""
+"Une erreur inconnue s'est produite, veuillez vérifier l'URL ou réessayer "
+"plus tard."
+
+msgid ""
+"Please enter the URL of the page containing the media you want to include in"
+" your post."
+msgstr ""
+"Veuillez saisir l'URL de la page contenant le média que vous souhaitez "
+"inclure dans votre entrée."
+
+msgid "Media alignment"
+msgstr "Alignement du média"
+
+msgid "Maximum size (in pixels)"
+msgstr "Taille maximale (en pixels)"
+
+msgid "Width"
+msgstr "Largeur"
+
+msgid "Height"
+msgstr "Hauteur"
+
+msgid ""
+"The default width and height are based on video insertion sizes defined in "
+"blog parameters."
+msgstr ""
+"La largeur et la hauteur par défaut sont basées sur les tailles d'insertion "
+"des vidéos définies dans les paramètres du blog."
+
+msgid "Insert"
+msgstr "Insérer"
+
+msgid "Cancel"
+msgstr "Annuler"
