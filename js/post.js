@@ -23,11 +23,11 @@ dotclear.ready(() => {
         'alwaysRaised=yes,dependent=yes,toolbar=yes,height=500,width=760,menubar=no,resizable=yes,scrollbars=yes,status=no',
       );
     },
-    gethtml() {
+    getHTML() {
       const d = this.data;
 
       if (d.m_object === '') {
-        return false;
+        return '';
       }
 
       const classes = ['external-media'];
@@ -73,17 +73,17 @@ dotclear.ready(() => {
   };
 
   jsToolBar.prototype.elements.embedmedia.fncall.wiki = function () {
-    const html = this.elements.embedmedia.gethtml();
+    const html = this.elements.embedmedia.getHTML();
 
     this.encloseSelection('', '', () => `///html\n${html}\n///\n`);
   };
   jsToolBar.prototype.elements.embedmedia.fncall.xhtml = function () {
-    const html = this.elements.embedmedia.gethtml();
+    const html = this.elements.embedmedia.getHTML();
 
     this.encloseSelection('', '', () => html);
   };
   jsToolBar.prototype.elements.embedmedia.fncall.markdown = function () {
-    const html = this.elements.embedmedia.gethtml();
+    const html = this.elements.embedmedia.getHTML();
 
     this.encloseSelection('', '', () => html);
   };

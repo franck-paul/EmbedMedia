@@ -1,4 +1,4 @@
-/*global dotclear, $, CKEDITOR */
+/*global dotclear, CKEDITOR */
 'use strict';
 
 CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
