@@ -26,7 +26,7 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
             [dotclear.ck_embedmedia.align_right, 'right'],
             [dotclear.ck_embedmedia.align_center, 'center'],
           ],
-          default: 'none',
+          default: dotclear.ck_embedmedia.align_default,
         },
         {
           type: 'vbox',

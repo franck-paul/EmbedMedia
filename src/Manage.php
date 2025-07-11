@@ -76,16 +76,17 @@ class Manage extends Process
         );
         echo Notices::getNotices();
 
-        $i_align = [
-            'none'   => [__('None'), 0],
-            'left'   => [__('Left'), 0],
-            'right'  => [__('Right'), 0],
-            'center' => [__('Center'), 1],
+        $align_default = App::blog()->settings()->system->media_img_default_alignment ?: 'none';
+        $i_align       = [
+            'none'   => [__('None')],
+            'left'   => [__('Left')],
+            'right'  => [__('Right')],
+            'center' => [__('Center')],
         ];
         $aligns = [];
         $i      = 0;
         foreach ($i_align as $k => $v) {
-            $aligns[] = (new Radio(['media-insert-alignment', 'alignment' . ++$i], (bool) $v[1]))
+            $aligns[] = (new Radio(['media-insert-alignment', 'alignment' . ++$i], $k === $align_default))
                 ->value($k)
                 ->label((new Label($v[0], Label::INSIDE_TEXT_AFTER)));
         }

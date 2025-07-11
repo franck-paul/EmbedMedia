@@ -56,6 +56,7 @@ class BackendBehaviors
                 'align_left'        => __('Left'),
                 'align_right'       => __('Right'),
                 'align_center'      => __('Center'),
+                'align_default'     => App::blog()->settings()->system->media_img_default_alignment ?: 'none',
                 'maxwidth'          => __('Max width:'),
                 'maxheight'         => __('Max height:'),
                 'maxwidth_default'  => App::blog()->settings()->system->media_video_width,
