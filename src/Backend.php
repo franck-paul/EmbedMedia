@@ -41,8 +41,10 @@ class Backend extends Process
             App::rest()->addFunction('embedMedia', BackendRest::embedMedia(...));
 
             App::behavior()->addBehaviors([
-                'adminPostEditor'      => BackendBehaviors::adminPostEditor(...),
-                'ckeditorExtraPlugins' => BackendBehaviors::ckeditorExtraPlugins(...),
+                'adminPostEditor'               => BackendBehaviors::adminPostEditor(...),
+                'ckeditorExtraPlugins'          => BackendBehaviors::ckeditorExtraPlugins(...),
+                'adminBlogPreferencesFormV2'    => BackendBehaviors::adminBlogPreferencesForm(...),
+                'adminBeforeBlogSettingsUpdate' => BackendBehaviors::adminBeforeBlogSettingsUpdate(...),
             ]);
         }
 

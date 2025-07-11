@@ -18,6 +18,11 @@ namespace Dotclear\Plugin\EmbedMedia;
 use ArrayObject;
 use Dotclear\App;
 use Dotclear\Core\Backend\Page;
+use Dotclear\Helper\Html\Form\Checkbox;
+use Dotclear\Helper\Html\Form\Fieldset;
+use Dotclear\Helper\Html\Form\Label;
+use Dotclear\Helper\Html\Form\Legend;
+use Dotclear\Helper\Html\Form\Para;
 
 class BackendBehaviors
 {
@@ -73,6 +78,31 @@ class BackendBehaviors
             'button' => 'EmbedMedia',
             'url'    => urldecode(App::config()->adminUrl() . Page::getPF(My::id() . '/cke-addon/')),
         ];
+
+        return '';
+    }
+
+    public static function adminBlogPreferencesForm(): string
+    {
+        $settings = My::settings();
+        echo
+        (new Fieldset('embed_media'))
+        ->legend((new Legend(__('Embed external media'))))
+        ->fields([
+            (new Para())->items([
+                (new Checkbox('embedmedia_active', (bool) $settings->active))
+                    ->value(1)
+                    ->label((new Label(__('Enable external media embedding on this blog'), Label::INSIDE_TEXT_AFTER))),
+            ]),
+        ])
+        ->render();
+
+        return '';
+    }
+
+    public static function adminBeforeBlogSettingsUpdate(): string
+    {
+        My::settings()->put('active', empty($_POST['embedmedia_active']) ? '' : $_POST['embedmedia_active'], App::blogWorkspace()::NS_BOOL);
 
         return '';
     }
