@@ -46,17 +46,22 @@ class BackendBehaviors
             My::jsLoad('post.js'),
 
             'dcCKEditor' => Page::jsJson('ck_editor_embedmedia', [
-                'title'        => __('Embed external media'),
-                'tab_url'      => __('URL'),
-                'url'          => __('Page URL:'),
-                'url_empty'    => __('URL cannot be empty.'),
-                'tab_align'    => __('Alignment'),
-                'align'        => __('Media alignment:'),
-                'align_none'   => __('None'),
-                'align_left'   => __('Left'),
-                'align_right'  => __('Right'),
-                'align_center' => __('Center'),
-                'style'        => [
+                'title'             => __('Embed external media'),
+                'tab_url'           => __('URL'),
+                'url'               => __('Page URL:'),
+                'url_empty'         => __('URL cannot be empty.'),
+                'tab_align'         => __('Alignment'),
+                'align'             => __('Media alignment:'),
+                'align_none'        => __('None'),
+                'align_left'        => __('Left'),
+                'align_right'       => __('Right'),
+                'align_center'      => __('Center'),
+                'maxwidth'          => __('Max width:'),
+                'maxheight'         => __('Max height:'),
+                'maxwidth_default'  => App::blog()->settings()->system->media_video_width,
+                'maxheight_default' => App::blog()->settings()->system->media_video_height,
+                'invalid_number'    => __('Width and height must be empty or a positive integer.'),
+                'style'             => [
                     'class'  => true,
                     'left'   => 'media-left',
                     'center' => 'media-center',
@@ -87,12 +92,12 @@ class BackendBehaviors
         $settings = My::settings();
         echo
         (new Fieldset('embed_media'))
-        ->legend((new Legend(__('Embed external media'))))
+        ->legend((new Legend(__('Embedding of external media with editors'))))
         ->fields([
             (new Para())->items([
                 (new Checkbox('embedmedia_active', (bool) $settings->active))
                     ->value(1)
-                    ->label((new Label(__('Enable external media embedding on this blog'), Label::INSIDE_TEXT_AFTER))),
+                    ->label((new Label(__('Enable external media embedding with editors on this blog'), Label::INSIDE_TEXT_AFTER))),
             ]),
         ])
         ->render();

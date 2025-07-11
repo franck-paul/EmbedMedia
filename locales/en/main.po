@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Dotclear 2 EmbedMedia module\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2025-07-11 09:31+0200\n"
+"POT-Creation-Date: 2025-07-11 10:48+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -52,7 +52,19 @@ msgstr ""
 msgid "Center"
 msgstr ""
 
-msgid "Enable external media embedding on this blog"
+msgid "Max width:"
+msgstr ""
+
+msgid "Max height:"
+msgstr ""
+
+msgid "Width and height must be empty or a positive integer."
+msgstr ""
+
+msgid "Embedding of external media with editors"
+msgstr ""
+
+msgid "Enable external media embedding with editors on this blog"
 msgstr ""
 
 msgid "oEmbed HTTP error:"

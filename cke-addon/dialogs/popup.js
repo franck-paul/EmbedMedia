@@ -7,8 +7,8 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
   minHeight: 150,
   contents: [
     {
-      id: 'tab-url',
-      label: dotclear.ck_embedmedia.tab_url,
+      id: 'tab-embed',
+      label: '',
       elements: [
         {
           id: 'url',
@@ -16,12 +16,6 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
           label: dotclear.ck_embedmedia.url,
           validate: CKEDITOR.dialog.validate.notEmpty(dotclear.ck_embedmedia.url_empty),
         },
-      ],
-    },
-    {
-      id: 'tab-alignment',
-      label: dotclear.ck_embedmedia.tab_align,
-      elements: [
         {
           type: 'radio',
           id: 'alignment',
@@ -34,12 +28,36 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
           ],
           default: 'none',
         },
+        {
+          type: 'vbox',
+          padding: 0,
+          children: [
+            {
+              id: 'maxwidth',
+              type: 'text',
+              label: dotclear.ck_embedmedia.maxwidth,
+              controlStyle: 'width:5em',
+              default: dotclear.ck_embedmedia.maxwidth_default,
+              validate: CKEDITOR.dialog.validate.number(dotclear.ck_embedmedia.invalid_number),
+            },
+            {
+              id: 'maxheight',
+              type: 'text',
+              label: dotclear.ck_embedmedia.maxheight,
+              controlStyle: 'width:5em',
+              default: dotclear.ck_embedmedia.maxheight_default,
+              validate: CKEDITOR.dialog.validate.number(dotclear.ck_embedmedia.invalid_number),
+            },
+          ],
+        },
       ],
     },
   ],
   onOk() {
-    const url = this.getValueOf('tab-url', 'url');
-    const alignment = this.getValueOf('tab-alignment', 'alignment');
+    const url = this.getValueOf('tab-embed', 'url');
+    const alignment = this.getValueOf('tab-embed', 'alignment');
+    const maxwidth = Math.abs(Number.parseInt(this.getValueOf('tab-embed', 'maxwidth')));
+    const maxheight = Math.abs(Number.parseInt(this.getValueOf('tab-embed', 'maxheight')));
 
     // Call REST method to get embedded media HTML source code if possible
     dotclear.jsonServicesGet(
@@ -78,6 +96,8 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
       },
       {
         url,
+        maxwidth,
+        maxheight,
       },
     );
   },
