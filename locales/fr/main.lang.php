@@ -22,6 +22,7 @@ L10n::$locales['None'] = 'Aucun';
 L10n::$locales['Left'] = 'Gauche';
 L10n::$locales['Right'] = 'Droite';
 L10n::$locales['Center'] = 'Centre';
+L10n::$locales['Enable external media embedding on this blog'] = 'Activer l\'intégration de médias externes sur ce blog';
 L10n::$locales['oEmbed HTTP error:'] = 'Erreur HTTP oEmbed :';
 L10n::$locales['Unknown error has occured, please verify URL or retry it later.'] = 'Une erreur inconnue s\'est produite, veuillez vérifier l\'URL ou réessayer plus tard.';
 L10n::$locales['Please enter the URL of the page containing the media you want to include in your post.'] = 'Veuillez saisir l\'URL de la page contenant le média que vous souhaitez inclure dans votre entrée.';
