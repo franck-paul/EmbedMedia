@@ -31,34 +31,19 @@ dotclear.ready(() => {
       }
 
       const classes = ['external-media'];
-      let style = '';
-      if (data.style.class) {
-        switch (d.alignment) {
-          case 'left':
-            classes.push(data.style.left);
-            break;
-          case 'right':
-            classes.push(data.style.right);
-            break;
-          case 'center':
-            classes.push(data.style.center);
-            break;
-        }
-      } else {
-        switch (d.alignment) {
-          case 'left':
-            style = ` style="${data.style.left}"`;
-            break;
-          case 'right':
-            style = ` style="${data.style.right}"`;
-            break;
-          case 'center':
-            style = ` style="${data.style.center}"`;
-            break;
-        }
+      switch (d.alignment) {
+        case 'left':
+          classes.push(data.class.left);
+          break;
+        case 'right':
+          classes.push(data.class.right);
+          break;
+        case 'center':
+          classes.push(data.class.center);
+          break;
       }
 
-      return `<div class="${classes.join(' ')}"${style}>\n${d.m_object}\n</div>`;
+      return `<div class="${classes.join(' ')}">\n${d.m_object}\n</div>`;
     },
   };
 

@@ -69,28 +69,15 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
         }
         // Use data.html
         const div = editor.document.createElement('div');
-        let style = '';
         let classes = 'external_media';
-        if (dotclear.ck_embedmedia.style.class) {
-          if (alignment === 'left') {
-            classes += ` ${dotclear.ck_embedmedia.style.left}`;
-          } else if (alignment === 'right') {
-            classes += ` ${dotclear.ck_embedmedia.style.right}`;
-          } else if (alignment === 'center') {
-            classes += ` ${dotclear.ck_embedmedia.style.center}`;
-          }
-        } else if (alignment === 'left') {
-          style = 'float: left; margin: 0 1em 1em 0;';
+        if (alignment === 'left') {
+          classes += ` ${dotclear.ck_embedmedia.class.left}`;
         } else if (alignment === 'right') {
-          style = 'float: right; margin: 0 0 1em 1em;';
+          classes += ` ${dotclear.ck_embedmedia.class.right}`;
         } else if (alignment === 'center') {
-          style = 'margin: 1em auto; text-align: center;';
+          classes += ` ${dotclear.ck_embedmedia.class.center}`;
         }
         div.setAttribute('class', classes);
-        if (style !== '') {
-          div.setAttribute('style', style);
-        }
-
         div.appendHtml(data.html);
         editor.insertElement(div);
       },

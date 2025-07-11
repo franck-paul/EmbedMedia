@@ -36,8 +36,7 @@ class BackendBehaviors
                 'open_url'  => App::backend()->url()->get('admin.plugin.' . My::id(), [
                     'popup' => 1,
                 ], '&'),
-                'style' => [
-                    'class'  => true,
+                'class' => [
                     'left'   => 'media-left',
                     'center' => 'media-center',
                     'right'  => 'media-right',
@@ -62,8 +61,7 @@ class BackendBehaviors
                 'maxwidth_default'  => App::blog()->settings()->system->media_video_width,
                 'maxheight_default' => App::blog()->settings()->system->media_video_height,
                 'invalid_number'    => __('Width and height must be empty or a positive integer.'),
-                'style'             => [
-                    'class'  => true,
+                'class'             => [
                     'left'   => 'media-left',
                     'center' => 'media-center',
                     'right'  => 'media-right',
