@@ -76,20 +76,20 @@ class Manage extends Process
         );
         echo Notices::getNotices();
 
-        $align_default = App::blog()->settings()->system->media_img_default_alignment ?: 'none';
-        $i_align       = [
-            'none'   => [__('None')],
-            'left'   => [__('Left')],
-            'right'  => [__('Right')],
-            'center' => [__('Center')],
+        $options = [
+            'none'   => __('None'),
+            'left'   => __('Left'),
+            'right'  => __('Right'),
+            'center' => __('Center'),
         ];
-        $aligns = [];
-        $i      = 0;
-        foreach ($i_align as $k => $v) {
-            $aligns[] = (new Radio(['media-insert-alignment', 'alignment' . ++$i], $k === $align_default))
-                ->value($k)
-                ->label((new Label($v[0], Label::INSIDE_TEXT_AFTER)));
-        }
+        $align_default = App::blog()->settings()->system->media_img_default_alignment ?: 'none';
+        $alignments    = function () use ($options, $align_default) {
+            foreach ($options as $code => $label) {
+                yield (new Radio(['media-insert-alignment', 'alignement_' . $code], $code === $align_default))
+                    ->value($code)
+                    ->label((new Label($label, Label::IL_FT)));
+            }
+        };
 
         // Form
         echo (new Form('media-insert-form'))
@@ -110,7 +110,7 @@ class Manage extends Process
                     ->items([
                         (new Text('h3', __('Media alignment'))),
                         (new Para())->items([
-                            ...$aligns,
+                            ...$alignments(),
                         ]),
                     ]),
                 (new Div())
