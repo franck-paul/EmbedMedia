@@ -1,11 +1,11 @@
 <modules xmlns:da="http://dotaddict.org/da/">
   <module id="EmbedMedia">
     <name>Embed Media</name>
-    <version>1.3</version>
+    <version>1.4</version>
     <author>Olivier Meunier, Franck Paul and contributors</author>
     <desc>Embed external media from Internet</desc>
-    <date>2025-07-11T11:04:29+0200</date>
-    <file>https://github.com/franck-paul/EmbedMedia/releases/download/1.3/plugin-EmbedMedia-1.3.zip</file>
+    <date>2025-07-11T11:34:30+0200</date>
+    <file>https://github.com/franck-paul/EmbedMedia/releases/download/1.4/plugin-EmbedMedia-1.4.zip</file>
     <da:dcmin>2.34</da:dcmin>
     <da:details>https://open-time.net/?q=EmbedMedia</da:details>
     <da:support>https://github.com/franck-paul/EmbedMedia</da:support>
