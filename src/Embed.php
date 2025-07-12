@@ -108,6 +108,12 @@ class Embed
             '#https?://((play|www)\.)?anghami\.com/.*#i'                          => ['https://api.anghami.com/rest/v1/oembed.view', true],
             '#https?://bsky.app/profile/.*/post/.*#i'                             => ['https://embed.bsky.app/oembed', true],
             '#https?://(www\.)?canva\.com/design/.*/view.*#i'                     => ['https://canva.com/_oembed', true],
+
+            // 2025-07-12:
+            '#https?://codepen.io/*#i'        => ['https://codepen.io/api/oembed', true],
+            '#https?://framatube.org/w/*#i'   => ['https://framatube.org/services/oembed', true],
+            '#https?://peertube.tv/w/*#i'     => ['https://peertube.tv/services/oembed', true],
+            '#https?://www.pinterest.com/*#i' => ['https://www.pinterest.com/oembed.json', true],
         ];
 
         // If CURL is not available disabled discover capabilities
