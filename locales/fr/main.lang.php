@@ -25,6 +25,7 @@ L10n::$locales['Center'] = 'Centre';
 L10n::$locales['Max width:'] = 'Largeur maximale :';
 L10n::$locales['Max height:'] = 'Hauteur maximale :';
 L10n::$locales['Width and height must be empty or a positive integer.'] = 'La largeur et la hauteur doivent être vides ou être des nombres entiers positifs.';
+L10n::$locales['Caption:'] = 'Légende :';
 L10n::$locales['Embedding of external media with editors'] = 'Intégration de médias externes avec les éditeurs';
 L10n::$locales['Enable external media embedding with editors on this blog'] = 'Permettre l\'intégration de médias externes avec les éditeurs de ce blog';
 L10n::$locales['oEmbed HTTP error:'] = 'Erreur HTTP oEmbed :';
