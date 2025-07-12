@@ -17,6 +17,11 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
           validate: CKEDITOR.dialog.validate.notEmpty(dotclear.ck_embedmedia.url_empty),
         },
         {
+          id: 'caption',
+          type: 'text',
+          label: dotclear.ck_embedmedia.caption,
+        },
+        {
           type: 'radio',
           id: 'alignment',
           label: dotclear.ck_embedmedia.align,
@@ -55,6 +60,7 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
   ],
   onOk() {
     const url = this.getValueOf('tab-embed', 'url');
+    const caption = this.getValueOf('tab-embed', 'caption');
     const alignment = this.getValueOf('tab-embed', 'alignment');
     const maxwidth = Math.abs(Number.parseInt(this.getValueOf('tab-embed', 'maxwidth')));
     const maxheight = Math.abs(Number.parseInt(this.getValueOf('tab-embed', 'maxheight')));
@@ -68,7 +74,17 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
           return;
         }
         // Use data.html
-        const div = editor.document.createElement('div');
+        let block;
+        if (caption?.trim()) {
+          // Use figure+figcaption
+          block = editor.document.createElement('figure');
+          // Add figcaption to data.html
+          data.html = `${data.html}\n<figcaption>${caption.trim()}</figcaption>`;
+        } else {
+          // Use div
+          block = editor.document.createElement('div');
+        }
+
         let classes = 'external_media';
         if (alignment === 'left') {
           classes += ` ${dotclear.ck_embedmedia.class.left}`;
@@ -77,9 +93,11 @@ CKEDITOR.dialog.add('embedMediaDialog', (editor) => ({
         } else if (alignment === 'center') {
           classes += ` ${dotclear.ck_embedmedia.class.center}`;
         }
-        div.setAttribute('class', classes);
-        div.appendHtml(data.html);
-        editor.insertElement(div);
+        block.setAttribute('class', classes);
+        block.appendHtml(data.html);
+
+        // Finally insert block
+        editor.insertElement(block);
       },
       {
         url,

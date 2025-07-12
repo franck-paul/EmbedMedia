@@ -61,6 +61,7 @@ class BackendBehaviors
                 'maxwidth_default'  => App::blog()->settings()->system->media_video_width,
                 'maxheight_default' => App::blog()->settings()->system->media_video_height,
                 'invalid_number'    => __('Width and height must be empty or a positive integer.'),
+                'caption'           => __('Caption:'),
                 'class'             => [
                     'left'   => 'media-left',
                     'center' => 'media-center',

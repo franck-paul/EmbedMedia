@@ -22,6 +22,7 @@ use Dotclear\Core\Process;
 use Dotclear\Helper\Html\Form\Button;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
+use Dotclear\Helper\Html\Form\Input;
 use Dotclear\Helper\Html\Form\Label;
 use Dotclear\Helper\Html\Form\Note;
 use Dotclear\Helper\Html\Form\Number;
@@ -64,6 +65,7 @@ class Manage extends Process
             Page::jsJson('embed_media', ['embed_media' => [
                 'request_error' => __('oEmbed HTTP error:'),
                 'unknown_error' => __('Unknown error has occured, please verify URL or retry it later.'),
+                'url_empty'     => __('URL cannot be empty.'),
             ]]);
 
         Page::openModule(My::name(), $head);
@@ -96,15 +98,28 @@ class Manage extends Process
             ->action(App::backend()->getPageURL() . '&popup=1')
             ->method('post')
             ->fields([
-                (new Para())->items([
-                    (new Text(null, __('Please enter the URL of the page containing the media you want to include in your post.'))),
-                ]),
-                (new Para())->items([
-                    (new Url('media-insert-url'))
-                        ->size(50)
-                        ->maxlength(255)
-                        ->label((new Label(__('Page URL:'), Label::INSIDE_TEXT_BEFORE))),
-                ]),
+                (new Para())
+                    ->items([
+                        (new Text(null, __('Please enter the URL of the page containing the media you want to include in your post.'))),
+                    ]),
+                (new Para())
+                    ->class('two-boxes')
+                    ->items([
+                        (new Url('media-insert-url'))
+                            ->size(50)
+                            ->maxlength(255)
+                            ->required(true)
+                            ->placeholder(__('URL'))
+                            ->label((new Label(__('Page URL:'), Label::OL_TF))->class('required')),
+                    ]),
+                (new Para())
+                    ->class('two-boxes')
+                    ->items([
+                        (new Input('media-insert-caption'))
+                            ->size(50)
+                            ->maxlength(255)
+                            ->label((new Label(__('Caption:'), Label::OL_TF))),
+                    ]),
                 (new Div())
                     ->class('two-boxes')
                     ->items([

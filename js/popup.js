@@ -14,6 +14,7 @@ dotclear.ready(() => {
     data.alignment = form.querySelector('input[name="media-insert-alignment"]:checked')?.value;
     data.url = url;
     data.m_object = object;
+    data.caption = form.querySelector('input[name="media-insert-caption"]')?.value;
 
     tb.elements.embedmedia.fncall[tb.mode].call(tb);
     window.close();
@@ -25,6 +26,11 @@ dotclear.ready(() => {
     event?.stopPropagation();
 
     const url = form.querySelector('#media-insert-url').value;
+    if (!url) {
+      window.alert(dotclear.embed_media.url_empty);
+      return;
+    }
+
     const maxwidth = Number.parseInt(form.querySelector('#media-insert-maxwidth')?.value);
     const maxheight = Number.parseInt(form.querySelector('#media-insert-maxheight')?.value);
     // Call REST method to get embedded media HTML source code if possible

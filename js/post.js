@@ -20,18 +20,16 @@ dotclear.ready(() => {
       window.open(
         this.elements.embedmedia.open_url,
         'dc_popup',
-        'alwaysRaised=yes,dependent=yes,toolbar=yes,height=500,width=760,menubar=no,resizable=yes,scrollbars=yes,status=no',
+        'alwaysRaised=yes,dependent=yes,toolbar=yes,height=540,width=760,menubar=no,resizable=yes,scrollbars=yes,status=no',
       );
     },
     getHTML() {
-      const d = this.data;
-
-      if (d.m_object === '') {
+      if (this.data.m_object === '') {
         return '';
       }
 
       const classes = ['external-media'];
-      switch (d.alignment) {
+      switch (this.data.alignment) {
         case 'left':
           classes.push(data.class.left);
           break;
@@ -43,7 +41,11 @@ dotclear.ready(() => {
           break;
       }
 
-      return `<div class="${classes.join(' ')}">\n${d.m_object}\n</div>`;
+      if (this.data.caption?.trim()) {
+        return `<figure class="${classes.join(' ')}">\n${this.data.m_object}\n<figcaption>${this.data.caption.trim()}</figcaption>\n</figure>`;
+      }
+
+      return `<div class="${classes.join(' ')}">\n${this.data.m_object}\n</div>`;
     },
   };
 
