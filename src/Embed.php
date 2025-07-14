@@ -472,7 +472,7 @@ class Embed
         if ($doc->loadHTML('<link ' . $link . ' />')) {
             $links = $doc->getElementsByTagName('link');
             foreach ($links as $node) {
-                if ($node->hasAttributes()) {
+                if ($node->hasAttributes()) {   // @phpstan-ignore-line: a DOMNode may not have attributes!
                     foreach ($node->attributes as $a) {
                         $attributes[mb_strtolower($a->name)] = $a->value;
                     }
