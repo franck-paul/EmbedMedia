@@ -167,7 +167,7 @@ class Embed
      *
      * @return string|false The HTML needed to embed on success, false on failure.
      */
-    protected function dataToHTML(object $data, string $url): string|bool
+    protected function dataToHTML(object $data, string $url): string|false
     {
         $return = false;
 
@@ -290,7 +290,7 @@ class Embed
      *
      * @return object|false
      */
-    private function parseJson(string $body): object|bool
+    private function parseJson(string $body): object|false
     {
         $data = json_decode(trim($body));
 
@@ -302,7 +302,7 @@ class Embed
      *
      * @return object|false
      */
-    private function parseXml(string $body): object|bool
+    private function parseXml(string $body): object|false
     {
         $errors = libxml_use_internal_errors(true);
 
@@ -343,7 +343,7 @@ class Embed
      *
      * @return string|false The oEmbed provider URL on success, false on failure.
      */
-    protected function getProvider(string $url): string|bool
+    protected function getProvider(string $url): string|false
     {
         $provider = false;
 
@@ -376,7 +376,7 @@ class Embed
      *
      * @return  string|false The oEmbed provider URL on success, false on failure.
      */
-    protected function discover(string $url): string|bool
+    protected function discover(string $url): string|false
     {
         $providers = [];
 
