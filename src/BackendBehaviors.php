@@ -99,6 +99,11 @@ class BackendBehaviors
                     ->value(1)
                     ->label((new Label(__('Enable external media embedding with editors on this blog'), Label::INSIDE_TEXT_AFTER))),
             ]),
+            (new Para())->items([
+                (new Checkbox('embedmedia_provider', (bool) $settings->provider))
+                    ->value(1)
+                    ->label((new Label(__('Enable this blog as an external media provider'), Label::INSIDE_TEXT_AFTER))),
+            ]),
         ])
         ->render();
 
@@ -108,6 +113,7 @@ class BackendBehaviors
     public static function adminBeforeBlogSettingsUpdate(): string
     {
         My::settings()->put('active', empty($_POST['embedmedia_active']) ? '' : $_POST['embedmedia_active'], App::blogWorkspace()::NS_BOOL);
+        My::settings()->put('provider', empty($_POST['embedmedia_provider']) ? '' : $_POST['embedmedia_provider'], App::blogWorkspace()::NS_BOOL);
 
         return '';
     }

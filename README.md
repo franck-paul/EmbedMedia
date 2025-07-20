@@ -15,4 +15,3 @@ Note: Intended to replace externalMedia Dotclear 2 plugin, which now requires a 
 ## Further possible developments
 
 - Use <https://oembed.com/providers.json> as source of oEmbed entrypoint API
-- Provide an oEmbed entry point for local resources (posts, pages, …)

@@ -17,13 +17,12 @@ namespace Dotclear\Plugin\EmbedMedia;
 
 use Dotclear\App;
 use Dotclear\Core\Process;
-use Exception;
 
-class Install extends Process
+class Prepend extends Process
 {
     public static function init(): bool
     {
-        return self::status(My::checkContext(My::INSTALL));
+        return self::status(My::checkContext(My::PREPEND));
     }
 
     public static function process(): bool
@@ -32,13 +31,9 @@ class Install extends Process
             return false;
         }
 
-        try {
-            // Init
-            $settings = My::settings();
-            $settings->put('active', true, App::blogWorkspace()::NS_BOOL, 'Activate plugin', false, true);
-            $settings->put('provider', false, App::blogWorkspace()::NS_BOOL, 'Act as a oEmbed provider', false, true);
-        } catch (Exception $exception) {
-            App::error()->add($exception->getMessage());
+        $settings = My::settings();
+        if ($settings->active && $settings->provider) {
+            App::url()->register('oembed', 'oembed', '^oembed(.*?)$', FrontendUrl::oembed(...));
         }
 
         return true;

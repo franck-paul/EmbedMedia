@@ -1,0 +1,10 @@
+{
+  "type": "rich",
+  "version": "1.0",
+  "title": "{{tpl:BlogName encode_html=\"1\"}}",
+  "author": "{{tpl:BlogEditor encode_html=\"1\"}}",
+  "author_url": "{{tpl:BlogURL encode_html=\"1\"}}",
+  "html": "{{tpl:oEmbedHtml encode_html=\"1\"}}",
+  "width": "{{tpl:oEmbedWidth encode_html=\"1\"}}",
+  "height": "{{tpl:oEmbedHeight encode_html=\"1\"}}"
+}

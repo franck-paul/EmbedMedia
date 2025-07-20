@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<oembed>
+    <type>rich</type>
+    <version>1.0</version>
+    <title>{{tpl:BlogName encode_html="1"}}</title>
+    <author>{{tpl:BlogEditor encode_html="1"}}</author>
+    <author_url>{{tpl:BlogURL encode_html="1"}}</author_url>
+    <html>{{tpl:oEmbedHtml encode_html=\"1\"}}</html>
+    <width>{{tpl:oEmbedWidth encode_html=\"1\"}}</width>
+    <height>{{tpl:oEmbedHeight encode_html=\"1\"}}</height>
+</oembed>
