@@ -36,7 +36,7 @@ class FrontendUrl extends Url
         if (is_null($url)) {
             self::p404();
         }
-        if (!str_starts_with($url, App::blog()->url())) {
+        if (!str_starts_with((string) $url, (string) App::blog()->url())) {
             // Requested URL must starts with the blog URL
             self::p501();
         }
