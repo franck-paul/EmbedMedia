@@ -28,6 +28,7 @@ L10n::$locales['Width and height must be empty or a positive integer.'] = 'La la
 L10n::$locales['Caption:'] = 'Légende :';
 L10n::$locales['Embedding of external media with editors'] = 'Intégration de médias externes avec les éditeurs';
 L10n::$locales['Enable external media embedding with editors on this blog'] = 'Permettre l\'intégration de médias externes avec les éditeurs de ce blog';
+L10n::$locales['Enable this blog as an external media provider'] = 'Activer ce blog en tant que fournisseur de médias externes';
 L10n::$locales['oEmbed HTTP error:'] = 'Erreur HTTP oEmbed :';
 L10n::$locales['Unknown error has occured, please verify URL or retry it later.'] = 'Une erreur inconnue s\'est produite, veuillez vérifier l\'URL ou réessayer plus tard.';
 L10n::$locales['Please enter the URL of the page containing the media you want to include in your post.'] = 'Veuillez saisir l\'URL de la page contenant le média que vous souhaitez inclure dans votre entrée.';

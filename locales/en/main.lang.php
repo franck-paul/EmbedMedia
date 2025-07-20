@@ -28,6 +28,7 @@ L10n::$locales['Width and height must be empty or a positive integer.'] = '';
 L10n::$locales['Caption:'] = '';
 L10n::$locales['Embedding of external media with editors'] = '';
 L10n::$locales['Enable external media embedding with editors on this blog'] = '';
+L10n::$locales['Enable this blog as an external media provider'] = '';
 L10n::$locales['oEmbed HTTP error:'] = '';
 L10n::$locales['Unknown error has occured, please verify URL or retry it later.'] = '';
 L10n::$locales['Please enter the URL of the page containing the media you want to include in your post.'] = '';
