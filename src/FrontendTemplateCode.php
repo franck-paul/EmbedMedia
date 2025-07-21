@@ -20,6 +20,54 @@ use Dotclear\App;
 class FrontendTemplateCode
 {
     /**
+     * PHP code for tpl:oEmbedTitle value
+     *
+     * @param      array<int|string, mixed>     $_params_  The parameters
+     */
+    public static function oEmbedTitle(
+        array $_params_,
+        string $_tag_
+    ): void {
+        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+            (string) App::frontend()->context()->oembed_title,
+            $_params_,
+            $_tag_
+        );
+    }
+
+    /**
+     * PHP code for tpl:oEmbedAuthor value
+     *
+     * @param      array<int|string, mixed>     $_params_  The parameters
+     */
+    public static function oEmbedAuthor(
+        array $_params_,
+        string $_tag_
+    ): void {
+        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+            (string) App::frontend()->context()->oembed_author,
+            $_params_,
+            $_tag_
+        );
+    }
+
+    /**
+     * PHP code for tpl:oEmbedAuthorURL value
+     *
+     * @param      array<int|string, mixed>     $_params_  The parameters
+     */
+    public static function oEmbedAuthorURL(
+        array $_params_,
+        string $_tag_
+    ): void {
+        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+            (string) App::frontend()->context()->oembed_author_url,
+            $_params_,
+            $_tag_
+        );
+    }
+
+    /**
      * PHP code for tpl:oEmbedHtml value
      *
      * @param      array<int|string, mixed>     $_params_  The parameters

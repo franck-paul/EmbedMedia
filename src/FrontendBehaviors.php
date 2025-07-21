@@ -25,4 +25,31 @@ class FrontendBehaviors
 
         return '';
     }
+
+    public static function publicHeadContent(): string
+    {
+        // Only in entry context
+        $urlTypes = ['post'];
+        if (App::plugins()->moduleExists('pages')) {
+            $urlTypes[] = 'pages';
+        }
+        if (!in_array(App::url()->getType(), $urlTypes)) {
+            return '';
+        }
+
+        $url  = App::blog()->url() . App::url()->getURLFor('oembed');
+        $apis = [
+            'json' => 'application/json+oembed',
+            'xml'  => 'text/xml+oembed',
+        ];
+        foreach ($apis as $format => $mime) {
+            echo sprintf(
+                '<link rel="alternate" type="%1$s" href="%2$s" />',
+                $mime,
+                htmlspecialchars($url . '&format=' . $format)
+            ) . "\n";
+        }
+
+        return '';
+    }
 }

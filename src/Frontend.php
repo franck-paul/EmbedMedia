@@ -35,25 +35,12 @@ class Frontend extends Process
         if ($settings->active && $settings->provider) {
             App::behavior()->addBehaviors([
                 'publicBeforeDocumentV2' => FrontendBehaviors::addTplPath(...),
-
-                'publicHeadContent' => function (): string {
-                    $url  = App::blog()->url() . App::url()->getURLFor('oembed');
-                    $apis = [
-                        'json' => 'application/json+oembed',
-                        'xml'  => 'text/xml+oembed',
-                    ];
-                    foreach ($apis as $format => $mime) {
-                        echo sprintf(
-                            '<link rel="alternate" type="%1$s" href="%2$s" />',
-                            $mime,
-                            htmlspecialchars($url . '&format=' . $format)
-                        ) . "\n";
-                    }
-
-                    return '';
-                },
+                'publicHeadContent'      => FrontendBehaviors::publicHeadContent(...),
             ]);
 
+            App::frontend()->template()->addValue('oEmbedTitle', FrontendTemplate::oEmbedTitle(...));
+            App::frontend()->template()->addValue('oEmbedAuthor', FrontendTemplate::oEmbedAuthor(...));
+            App::frontend()->template()->addValue('oEmbedAuthorURL', FrontendTemplate::oEmbedAuthorURL(...));
             App::frontend()->template()->addValue('oEmbedHtml', FrontendTemplate::oEmbedHtml(...));
             App::frontend()->template()->addValue('oEmbedWidth', FrontendTemplate::oEmbedWidth(...));
             App::frontend()->template()->addValue('oEmbedHeight', FrontendTemplate::oEmbedHeight(...));

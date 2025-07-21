@@ -23,6 +23,39 @@ class FrontendTemplate
     /**
      * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
      */
+    public static function oEmbedTitle(array|ArrayObject $attr): string
+    {
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::oEmbedTitle(...),
+            attr: $attr,
+        );
+    }
+
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     */
+    public static function oEmbedAuthor(array|ArrayObject $attr): string
+    {
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::oEmbedAuthor(...),
+            attr: $attr,
+        );
+    }
+
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     */
+    public static function oEmbedAuthorURL(array|ArrayObject $attr): string
+    {
+        return Code::getPHPTemplateValueCode(
+            FrontendTemplateCode::oEmbedAuthorURL(...),
+            attr: $attr,
+        );
+    }
+
+    /**
+     * @param      array<string, mixed>|\ArrayObject<string, mixed>  $attr      The attribute
+     */
     public static function oEmbedHtml(array|ArrayObject $attr): string
     {
         return Code::getPHPTemplateValueCode(

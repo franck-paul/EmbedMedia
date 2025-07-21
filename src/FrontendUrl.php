@@ -17,7 +17,6 @@ namespace Dotclear\Plugin\EmbedMedia;
 
 use Dotclear\App;
 use Dotclear\Core\Frontend\Url;
-use Dotclear\Helper\Html\Html;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Helper\Network\HttpClient;
 
@@ -34,72 +33,76 @@ class FrontendUrl extends Url
 
         $url = $_GET['url'] ?? null;
         if (is_null($url)) {
-            self::p404();
+            // No given URL
+            self::errorPage(400);
         }
         if (!str_starts_with((string) $url, (string) App::blog()->url())) {
             // Requested URL must starts with the blog URL
-            self::p501();
+            self::errorPage(400);
         }
         // Check if URL is valid
         if (filter_var($url, FILTER_VALIDATE_URL) === false) {
-            self::p404();
+            // Invalid URL
+            self::errorPage(400);
         }
         $path = '';
         if (($client = HttpClient::initClient($url, $path)) === false) {
-            self::p404();
+            // Unable to init an HTTP client
+            self::errorPage();
         }
         $client->setOutput(null);
         $client->get($path);
         if ($client->getStatus() !== 200) {
-            self::p404();
+            // Unable to find URL
+            self::errorPage(404);
         }
 
         $format = $_GET['format'] ?? 'json';
         if (!in_array($format, ['json', 'xml'])) {
-            // Unsupported format (must be JSON or XML)
-            self::p501();
+            // Unsupported format (must be JSON or XML, in lowercase)
+            self::errorPage(400);
         }
 
-        // Prepare oembed response
-        $width  = $_GET['maxwidth']  ?? '800';
-        $height = $_GET['maxheight'] ?? '600';
-        if ((int) $width === 0) {
-            $width = '800';
+        // Check max dimensions
+        $maxwidth  = $_GET['maxwidth']  ?? '800';
+        $maxheight = $_GET['maxheight'] ?? '600';
+        if ((int) $maxwidth === 0) {
+            $maxwidth = '800';
         }
-        if ((int) $height === 0) {
-            $height = '600';
+        if ((int) $maxheight === 0) {
+            $maxheight = '600';
         }
 
-        $html = '<iframe width="' . $width . '" height="' . $height . '" src="' . $url . '" frameborder="0"></iframe>';
-
-        App::frontend()->context()->oembed_html   = $format === 'xml' ? Html::escapeHTML($html) : addslashes($html);
-        App::frontend()->context()->oembed_width  = $width;
-        App::frontend()->context()->oembed_height = $height;
-
-        if ($format === 'xml') {
-            self::serveDocument('oembed.xml', 'application/xml');
+        // Remove blog URL from start of requested URL
+        $url    = substr((string) $url, strlen((string) App::blog()->url()));
+        $status = FrontendHelper::oEmbedEntry($url, $maxwidth, $maxheight, $format, $args);
+        if ($status === 200) {
+            if ($format === 'xml') {
+                self::serveDocument('oembed.xml', 'application/xml');
+            } else {
+                self::serveDocument('oembed.json', 'application/json');
+            }
         } else {
-            self::serveDocument('oembed.json', 'application/json');
+            self::errorPage($status);
         }
     }
 
-    /**
-     * Return a 501 (not implemented) response
-     */
-    public static function p501(): never
+    public static function errorPage(int $code = 503): never
     {
-        header('Content-Type: text/html; charset=UTF-8');
-        Http::head(501, 'Not Implemented');
-        exit;
-    }
+        $codes = [
+            400 => 'Bad Request',
+            401 => 'Unauthorized',
+            403 => 'Forbidden',
+            404 => 'Not Found',
+            501 => 'Not Implemented',
+        ];
 
-    /**
-     * Return a 404 (not found) response
-     */
-    public static function p404(): never
-    {
         header('Content-Type: text/html; charset=UTF-8');
-        Http::head(404, 'Not Found');
+        if (in_array($code, $codes)) {
+            Http::head($code, $codes[$code]);
+        } else {
+            Http::head(503, 'Service Unavailable');
+        }
         exit;
     }
 }
