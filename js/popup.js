@@ -31,6 +31,11 @@ dotclear.ready(() => {
       return;
     }
 
+    const waiting = document.querySelector('.ac_waiting');
+    if (waiting) {
+      waiting.style.width = '4em';
+    }
+
     const maxwidth = Number.parseInt(form.querySelector('#media-insert-maxwidth')?.value);
     const maxheight = Number.parseInt(form.querySelector('#media-insert-maxheight')?.value);
     // Call REST method to get embedded media HTML source code if possible
@@ -38,6 +43,7 @@ dotclear.ready(() => {
       'embedMedia',
       (data) => {
         if (data.ret === false) {
+          if (waiting) waiting.classList.remove('ac_loading');
           event?.preventDefault();
           event?.stopPropagation();
           if (data?.error) {
@@ -55,8 +61,11 @@ dotclear.ready(() => {
         maxwidth,
         maxheight,
       },
-      (_error) => {},
+      (_error) => {
+        if (waiting) waiting.classList.remove('ac_loading');
+      },
     );
+    if (waiting) waiting.classList.add('ac_loading');
   };
 
   document.querySelector('#media-insert-cancel')?.addEventListener('click', (event) => {

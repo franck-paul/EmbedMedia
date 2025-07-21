@@ -148,6 +148,8 @@ class Manage extends Process
                             ->class(['form-note', 'info'])
                             ->text(__('The default width and height are based on video insertion sizes defined in blog parameters.')),
                     ]),
+                (new Div())
+                    ->class('ac_waiting'),
                 (new Para())
                     ->separator(' ')
                     ->class('form-buttons')
