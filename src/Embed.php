@@ -473,7 +473,7 @@ class Embed
             foreach ($links as $node) {
                 if ($node->hasAttributes()) {   // @phpstan-ignore-line: a DOMNode may not have attributes!
                     foreach ($node->attributes as $a) {
-                        $attributes[mb_strtolower($a->name)] = $a->value;
+                        $attributes[mb_strtolower((string) $a->name)] = $a->value;
                     }
                 }
             }
