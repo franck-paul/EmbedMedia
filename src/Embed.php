@@ -25,7 +25,7 @@ use stdClass;
 class Embed
 {
     /**
-     * @var array<string, array{0: string, 1: bool}>
+     * @var array<string, list{0: string, 1: bool}>
      *
      * Key = regular expression/URL
      * Value = [ oembed service provider URL, use regular expression (see key) ]
@@ -473,7 +473,7 @@ class Embed
             foreach ($links as $node) {
                 if ($node->hasAttributes()) {   // @phpstan-ignore-line: a DOMNode may not have attributes!
                     foreach ($node->attributes as $a) {
-                        $attributes[mb_strtolower((string) $a->name)] = $a->value;
+                        $attributes[mb_strtolower($a->name)] = $a->value;
                     }
                 }
             }
