@@ -16,7 +16,7 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\EmbedMedia;
 
 use Dotclear\App;
-use Dotclear\Core\Frontend\Url;
+use Dotclear\Core\Url;
 use Dotclear\Helper\Network\Http;
 use Dotclear\Helper\Network\HttpClient;
 
