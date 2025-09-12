@@ -28,7 +28,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             (string) App::frontend()->context()->oembed_title,
             $_params_,
             $_tag_
@@ -44,7 +44,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             (string) App::frontend()->context()->oembed_author,
             $_params_,
             $_tag_
@@ -60,7 +60,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             (string) App::frontend()->context()->oembed_author_url,
             $_params_,
             $_tag_
@@ -76,7 +76,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             (string) App::frontend()->context()->oembed_html,
             $_params_,
             $_tag_
@@ -92,7 +92,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             (string) App::frontend()->context()->oembed_width,
             $_params_,
             $_tag_
@@ -108,7 +108,7 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
-        echo \Dotclear\Core\Frontend\Ctx::global_filters(
+        echo App::frontend()->context()::global_filters(
             (string) App::frontend()->context()->oembed_height,
             $_params_,
             $_tag_
