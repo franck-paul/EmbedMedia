@@ -4,6 +4,15 @@
 dotclear.ready(() => {
   const data = dotclear.getData('dc_editor_embedmedia');
 
+  jsToolBar.prototype.elements.embedmediaSpaceBefore = {
+    type: 'space',
+    format: {
+      wysiwyg: true,
+      wiki: true,
+      xhtml: true,
+      markdown: true,
+    },
+  };
   jsToolBar.prototype.elements.embedmedia = {
     type: 'button',
     title: data.title || 'Embed external Media',
@@ -46,6 +55,15 @@ dotclear.ready(() => {
       }
 
       return `<div class="${classes.join(' ')}">\n${this.data.m_object}\n</div>`;
+    },
+  };
+  jsToolBar.prototype.elements.embedmediaSpaceAfter = {
+    type: 'space',
+    format: {
+      wysiwyg: true,
+      wiki: true,
+      xhtml: true,
+      markdown: true,
     },
   };
 
