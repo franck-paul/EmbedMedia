@@ -16,8 +16,6 @@ declare(strict_types=1);
 namespace Dotclear\Plugin\EmbedMedia;
 
 use Dotclear\App;
-use Dotclear\Core\Backend\Notices;
-use Dotclear\Core\Backend\Page;
 use Dotclear\Helper\Html\Form\Button;
 use Dotclear\Helper\Html\Form\Div;
 use Dotclear\Helper\Html\Form\Form;
@@ -65,21 +63,21 @@ class Manage
         }
 
         $head = My::jsLoad('popup.js') .
-            Page::jsJson('embed_media', ['embed_media' => [
+            App::backend()->page()->jsJson('embed_media', ['embed_media' => [
                 'request_error' => __('oEmbed HTTP error:'),
                 'unknown_error' => __('Unknown error has occured, please verify URL or retry it later.'),
                 'url_empty'     => __('URL cannot be empty.'),
             ]]);
 
-        Page::openModule(My::name(), $head);
+        App::backend()->page()->openModule(My::name(), $head);
 
-        echo Page::breadcrumb(
+        echo App::backend()->page()->breadcrumb(
             [
                 Html::escapeHTML(App::blog()->name()) => '',
                 __('Embed external media')            => '',
             ]
         );
-        echo Notices::getNotices();
+        echo App::backend()->notices()->getNotices();
 
         $options = [
             'none'   => __('None'),
@@ -168,6 +166,6 @@ class Manage
             ])
         ->render();
 
-        Page::closeModule();
+        App::backend()->page()->closeModule();
     }
 }
