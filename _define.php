@@ -15,9 +15,9 @@ $this->registerModule(
     'EmbedMedia',
     'Embed external media from Internet',
     'Franck Paul',
-    '2.5',
+    '2.6',
     [
-        'date'     => '2025-09-22T10:32:13+0200',
+        'date'     => '2025-10-11T10:45:54+0200',
         'requires' => [
             ['core', '2.36'],
             ['TemplateHelper'],
