@@ -383,7 +383,7 @@ class Embed
         // Fetch URL content.
         $curl = curl_init();
 
-        if ($curl === false) {
+        if ($curl === false || $url === '') {
             return false;
         }
 
