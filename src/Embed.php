@@ -403,7 +403,6 @@ class Embed
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         }
         $response = curl_exec($curl);
-        curl_close($curl);
         if ($response === false) {
             return false;
         }
