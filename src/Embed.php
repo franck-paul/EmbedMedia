@@ -363,7 +363,7 @@ class Embed
         }
 
         if (!$provider && $this->discover) {
-            $provider = $this->discover($url);
+            return $this->discover($url);
         }
 
         return $provider;
@@ -431,7 +431,11 @@ class Embed
         if ($tagfound && preg_match_all('#<link([^<>]+)/?>#iU', (string) $response, $links)) {
             foreach ($links[1] as $link) {
                 $attributes = $this->parseLinkAttributes($link);
-                if (!isset($attributes['type']) || !isset($attributes['href'])) {
+                if (!isset($attributes['type'])) {
+                    continue;
+                }
+
+                if (!isset($attributes['href'])) {
                     continue;
                 }
 
@@ -446,10 +450,12 @@ class Embed
             }
         }
 
-        // JSON is preferred to XML.
         if (isset($providers['json']) && ($providers['json'] !== '')) {
+            // JSON is preferred to XML.
             return $providers['json'];
-        } elseif (isset($providers['xml']) && ($providers['xml'] !== '')) {
+        }
+
+        if (isset($providers['xml']) && ($providers['xml'] !== '')) {
             return $providers['xml'];
         }
 
