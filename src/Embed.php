@@ -137,7 +137,7 @@ class Embed
      *
      * @return string|false The result in the form of an HTML string on success, false on failure.
      */
-    public function getHtml(string $url, array $args = []): string|bool
+    public function getHtml(string $url, array $args = []): string|false
     {
         $provider = $this->getProvider($url);
         if (!$provider) {
