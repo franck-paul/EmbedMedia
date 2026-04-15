@@ -282,7 +282,12 @@ class Embed
             return false;
         }
 
-        return $this->parsers[$format]($body);
+        $ret = $this->parsers[$format]($body);
+        if (!is_object($ret)) {
+            return false;
+        }
+
+        return $ret;
     }
 
     /**

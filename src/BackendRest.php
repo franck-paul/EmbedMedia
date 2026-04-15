@@ -38,9 +38,11 @@ class BackendRest
             $maxheight = (int) ($get['maxheight'] ?? 0);
 
             if ($maxwidth <= 0 || $maxheight <= 0) {
+                $_Int = fn (mixed $var, int $default = 0): int => $var !== null && is_numeric($val = $var) ? (int) $val : $default;
+
                 // Prepare width and height based on video default size (blog parameter)
-                $videowidth  = (int) App::blog()->settings()->system->media_video_width ;
-                $videoheight = (int) App::blog()->settings()->system->media_video_height;
+                $videowidth  = $_Int(App::blog()->settings()->system->media_video_width);
+                $videoheight = $_Int(App::blog()->settings()->system->media_video_height);
                 if ($videowidth <= 0 && $videoheight <= 0) {
                     $videowidth  = 400;
                     $videoheight = 300;

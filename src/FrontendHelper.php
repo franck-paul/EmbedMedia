@@ -26,14 +26,14 @@ class FrontendHelper
      * Retrieve entry information from given URL
      *
      * @param  string       $url          URL of entry
-     * @param  string       $maxwidth     Maximum width
-     * @param  string       $maxheight    Maximum height
+     * @param  int          $maxwidth     Maximum width
+     * @param  int          $maxheight    Maximum height
      * @param  string       $format       Output format (JSON/XML)
      * @param  null|string  $args   The arguments
      *
      * @return int status code (same as HTTP response code, 200, 401, 404, 501, ...)
      */
-    public static function oEmbedEntry(string $url, string $maxwidth, string $maxheight, string $format, ?string $args): int
+    public static function oEmbedEntry(string $url, int $maxwidth, int $maxheight, string $format, ?string $args): int
     {
         // Init default value
         App::frontend()->context()->oembed_title      = App::blog()->name();                        // will be replaced by entry title
@@ -74,21 +74,22 @@ class FrontendHelper
         }
 
         // Conversion helper
-        $escape = fn (string $html) => $format === 'xml' ? Html::escapeHTML($html) : trim((string) json_encode($html, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES), '"');
+        $escape = fn (string $html): string => $format === 'xml' ? Html::escapeHTML($html) : trim((string) json_encode($html, JSON_HEX_TAG | JSON_UNESCAPED_SLASHES), '"');
 
         // Get entry content and metadata
         $rs->extend(Post::class);
 
-        $title      = $rs->post_title;
-        $author     = $rs->getAuthorCN();
-        $author_url = $rs->user_url;
-        $href       = $rs->getURL();
+        $title      = is_string($title = $rs->post_title) ? $title : '';
+        $author     = is_string($author = $rs->getAuthorCN()) ? $author : '';
+        $author_url = is_string($author_url = $rs->user_url) ? $author_url : '';
+        $href       = is_string($href = $rs->getURL()) ? $href : '';
 
         $link = ($author !== '' ? $author . ' - ' : '') . '<a href="' . $href . '">' . $title . '</a>';
 
-        $html = $rs->getExcerpt(true);
-        $html .= ($html !== '' ? ' ' : '') . $rs->getContent(true);
+        $excerpt = is_string($excerpt = $rs->getExcerpt(true)) ? $excerpt : '';
+        $content = is_string($content = $rs->getContent(true)) ? $content : '';
 
+        $html = $excerpt . ($excerpt !== '' ? ' ' : '') . $content;
         if ($html === '') {
             // No content
             return 404;

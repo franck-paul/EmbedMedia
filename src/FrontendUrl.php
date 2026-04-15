@@ -31,12 +31,16 @@ class FrontendUrl extends Url
             self::p404();
         }
 
-        $url = $_GET['url'] ?? null;
-        if (is_null($url)) {
+        // Get data helpers
+        $_Int = fn (string $name, int $default = 0): int => isset($_GET[$name]) && is_numeric($val = $_GET[$name]) ? (int) $val : $default;
+        $_Str = fn (string $name, string $default = ''): string => isset($_GET[$name]) && is_string($val = $_GET[$name]) ? $val : $default;
+
+        $url = $_Str('url');
+        if ($url === '') {
             // No given URL
             self::errorPage(400);
         }
-        if (!str_starts_with((string) $url, (string) App::blog()->url())) {
+        if (!str_starts_with($url, (string) App::blog()->url())) {
             // Requested URL must starts with the blog URL
             self::errorPage(400);
         }
@@ -57,24 +61,24 @@ class FrontendUrl extends Url
             self::errorPage(404);
         }
 
-        $format = $_GET['format'] ?? 'json';
+        $format = $_Str('format', 'json');
         if (!in_array($format, ['json', 'xml'])) {
             // Unsupported format (must be JSON or XML, in lowercase)
             self::errorPage(400);
         }
 
         // Check max dimensions
-        $maxwidth  = $_GET['maxwidth']  ?? '800';
-        $maxheight = $_GET['maxheight'] ?? '600';
-        if ((int) $maxwidth === 0) {
-            $maxwidth = '800';
+        $maxwidth  = $_Int('maxwidth', 800);
+        $maxheight = $_Int('maxheight', 600);
+        if ($maxwidth === 0) {
+            $maxwidth = 800;
         }
-        if ((int) $maxheight === 0) {
-            $maxheight = '600';
+        if ($maxheight === 0) {
+            $maxheight = 600;
         }
 
         // Remove blog URL from start of requested URL
-        $url    = substr((string) $url, strlen((string) App::blog()->url()));
+        $url    = substr($url, strlen((string) App::blog()->url()));
         $status = FrontendHelper::oEmbedEntry($url, $maxwidth, $maxheight, $format, $args);
         if ($status === 200) {
             if ($format === 'xml') {

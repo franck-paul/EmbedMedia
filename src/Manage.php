@@ -62,6 +62,9 @@ class Manage
             return;
         }
 
+        // Variable data helpers
+        $_Int = fn (mixed $var, int $default = 0): int => $var !== null && is_numeric($val = $var) ? (int) $val : $default;
+
         $head = My::jsLoad('popup.js') .
             App::backend()->page()->jsJson('embed_media', ['embed_media' => [
                 'request_error' => __('oEmbed HTTP error:'),
@@ -93,6 +96,9 @@ class Manage
                     ->label((new Label($label, Label::IL_FT)));
             }
         };
+
+        $width  = $_Int(App::blog()->settings()->system->media_video_width);
+        $height = $_Int(App::blog()->settings()->system->media_video_height);
 
         // Form
         echo (new Form('media-insert-form'))
@@ -136,13 +142,13 @@ class Manage
                         (new Para())
                             ->class('field')
                             ->items([
-                                (new Number('media-insert-maxwidth', 0, 999, (int) App::blog()->settings()->system->media_video_width))
+                                (new Number('media-insert-maxwidth', 0, 999, $width))
                                     ->label(new Label(__('Width'), Label::OL_TF)),
                             ]),
                         (new Para())
                             ->class('field')
                             ->items([
-                                (new Number('media-insert-maxheight', 0, 999, (int) App::blog()->settings()->system->media_video_height))
+                                (new Number('media-insert-maxheight', 0, 999, $height))
                                     ->label(new Label(__('Height'), Label::OL_TF)),
                             ]),
                         (new Note())

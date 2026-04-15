@@ -28,11 +28,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
+        $embedmedia_title = is_string($embedmedia_title = App::frontend()->context()->oembed_title) ? $embedmedia_title : '';
         echo App::frontend()->context()::global_filters(
-            (string) App::frontend()->context()->oembed_title,
+            $embedmedia_title,
             $_params_,
             $_tag_
         );
+        unset($embedmedia_title);
     }
 
     /**
@@ -44,11 +46,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
+        $embedmedia_author = is_string($embedmedia_author = App::frontend()->context()->oembed_author) ? $embedmedia_author : '';
         echo App::frontend()->context()::global_filters(
-            (string) App::frontend()->context()->oembed_author,
+            $embedmedia_author,
             $_params_,
             $_tag_
         );
+        unset($embedmedia_author);
     }
 
     /**
@@ -60,11 +64,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
+        $embedmedia_author_url = is_string($embedmedia_author_url = App::frontend()->context()->oembed_author_url) ? $embedmedia_author_url : '';
         echo App::frontend()->context()::global_filters(
-            (string) App::frontend()->context()->oembed_author_url,
+            $embedmedia_author_url,
             $_params_,
             $_tag_
         );
+        unset($embedmedia_author_url);
     }
 
     /**
@@ -76,11 +82,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
+        $embedmedia_html = is_string($embedmedia_html = App::frontend()->context()->oembed_html) ? $embedmedia_html : '';
         echo App::frontend()->context()::global_filters(
-            (string) App::frontend()->context()->oembed_html,
+            $embedmedia_html,
             $_params_,
             $_tag_
         );
+        unset($embedmedia_html);
     }
 
     /**
@@ -92,11 +100,13 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
+        $embedmedia_width = is_numeric($embedmedia_width = App::frontend()->context()->oembed_width) ? (string) $embedmedia_width : '';
         echo App::frontend()->context()::global_filters(
-            (string) App::frontend()->context()->oembed_width,
+            $embedmedia_width,
             $_params_,
             $_tag_
         );
+        unset($embedmedia_width);
     }
 
     /**
@@ -108,10 +118,12 @@ class FrontendTemplateCode
         array $_params_,
         string $_tag_
     ): void {
+        $embedmedia_height = is_numeric($embedmedia_height = App::frontend()->context()->oembed_height) ? (string) $embedmedia_height : '';
         echo App::frontend()->context()::global_filters(
-            (string) App::frontend()->context()->oembed_height,
+            $embedmedia_height,
             $_params_,
             $_tag_
         );
+        unset($embedmedia_height);
     }
 }
