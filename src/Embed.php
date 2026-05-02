@@ -176,6 +176,7 @@ class Embed
                 if (!$data?->url || !$data?->width || !$data?->height) {     // @phpstan-ignore-line
                     break;
                 }
+
                 if (!is_string($data->url) || !is_numeric($data->width) || !is_numeric($data->height)) {
                     break;
                 }
@@ -183,6 +184,7 @@ class Embed
                 if (filter_var($url, FILTER_VALIDATE_URL) === false) {
                     break;
                 }
+
                 if (filter_var($data->url, FILTER_VALIDATE_URL) === false) {
                     break;
                 }
@@ -407,6 +409,7 @@ class Embed
         if (App::config()->devMode() === true && App::config()->debugMode() === true) {
             curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, false);
         }
+
         $response = curl_exec($curl);
         if ($response === false) {
             return false;

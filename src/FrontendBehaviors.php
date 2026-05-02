@@ -33,6 +33,7 @@ class FrontendBehaviors
         if (App::plugins()->moduleExists('pages')) {
             $urlTypes[] = 'pages';
         }
+
         if (!in_array(App::url()->getType(), $urlTypes)) {
             return '';
         }

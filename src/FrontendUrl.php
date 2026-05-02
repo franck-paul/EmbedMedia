@@ -40,20 +40,24 @@ class FrontendUrl extends Url
             // No given URL
             self::errorPage(400);
         }
+
         if (!str_starts_with($url, (string) App::blog()->url())) {
             // Requested URL must starts with the blog URL
             self::errorPage(400);
         }
+
         // Check if URL is valid
         if (filter_var($url, FILTER_VALIDATE_URL) === false) {
             // Invalid URL
             self::errorPage(400);
         }
+
         $path = '';
         if (($client = HttpClient::initClient($url, $path)) === false) {
             // Unable to init an HTTP client
             self::errorPage();
         }
+
         $client->setOutput(null);
         $client->get($path);
         if ($client->getStatus() !== 200) {
@@ -62,7 +66,7 @@ class FrontendUrl extends Url
         }
 
         $format = $_Str('format', 'json');
-        if (!in_array($format, ['json', 'xml'])) {
+        if (!in_array($format, ['json', 'xml'], true)) {
             // Unsupported format (must be JSON or XML, in lowercase)
             self::errorPage(400);
         }
@@ -73,6 +77,7 @@ class FrontendUrl extends Url
         if ($maxwidth === 0) {
             $maxwidth = 800;
         }
+
         if ($maxheight === 0) {
             $maxheight = 600;
         }
@@ -107,6 +112,7 @@ class FrontendUrl extends Url
         } else {
             Http::head(503, 'Service Unavailable');
         }
+
         exit;
     }
 }
