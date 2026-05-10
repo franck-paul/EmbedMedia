@@ -113,6 +113,9 @@ class Embed
             '#https?://framatube.org/w/*#i'   => ['https://framatube.org/services/oembed', true],
             '#https?://peertube.tv/w/*#i'     => ['https://peertube.tv/services/oembed', true],
             '#https?://www.pinterest.com/*#i' => ['https://www.pinterest.com/oembed.json', true],
+
+            // 2026-05-10:
+            '#https?://podcasts.apple.com/*#i' => ['https://podcasts.apple.com/api/oembed', true],
         ];
 
         // If CURL is not available disabled discover capabilities
