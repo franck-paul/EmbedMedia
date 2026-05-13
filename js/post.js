@@ -1,10 +1,10 @@
-/*global jsToolBar, dotclear */
+/*global dotclear */
 'use strict';
 
 dotclear.ready(() => {
   const data = dotclear.getData('dc_editor_embedmedia');
 
-  jsToolBar.prototype.elements.embedmedia = {
+  dotclear.ToolBar.prototype.elements.embedmedia = {
     group: 'media',
     type: 'button',
     title: data.title || 'Embed external Media',
@@ -15,7 +15,7 @@ dotclear.ready(() => {
     open_url: data.open_url,
     data: {},
     popup() {
-      window.the_toolbar = this;
+      globalThis.the_toolbar = this;
       this.elements.embedmedia.data = {};
 
       window.open(
@@ -50,27 +50,27 @@ dotclear.ready(() => {
     },
   };
 
-  jsToolBar.prototype.elements.embedmedia.fn.wiki = function () {
+  dotclear.ToolBar.prototype.elements.embedmedia.fn.wiki = function () {
     this.elements.embedmedia.popup.call(this);
   };
-  jsToolBar.prototype.elements.embedmedia.fn.xhtml = function () {
+  dotclear.ToolBar.prototype.elements.embedmedia.fn.xhtml = function () {
     this.elements.embedmedia.popup.call(this);
   };
-  jsToolBar.prototype.elements.embedmedia.fn.markdown = function () {
+  dotclear.ToolBar.prototype.elements.embedmedia.fn.markdown = function () {
     this.elements.embedmedia.popup.call(this);
   };
 
-  jsToolBar.prototype.elements.embedmedia.fncall.wiki = function () {
+  dotclear.ToolBar.prototype.elements.embedmedia.fncall.wiki = function () {
     const html = this.elements.embedmedia.getHTML();
 
     this.encloseSelection('', '', () => `///html\n${html}\n///\n`);
   };
-  jsToolBar.prototype.elements.embedmedia.fncall.xhtml = function () {
+  dotclear.ToolBar.prototype.elements.embedmedia.fncall.xhtml = function () {
     const html = this.elements.embedmedia.getHTML();
 
     this.encloseSelection('', '', () => html);
   };
-  jsToolBar.prototype.elements.embedmedia.fncall.markdown = function () {
+  dotclear.ToolBar.prototype.elements.embedmedia.fncall.markdown = function () {
     const html = this.elements.embedmedia.getHTML();
 
     this.encloseSelection('', '', () => html);

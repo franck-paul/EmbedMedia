@@ -27,7 +27,7 @@ dotclear.ready(() => {
 
     const url = form.querySelector('#media-insert-url').value;
     if (!url) {
-      window.alert(dotclear.embed_media.url_empty);
+      globalThis.alert(dotclear.embed_media.url_empty);
       return;
     }
 
@@ -47,9 +47,9 @@ dotclear.ready(() => {
           event?.preventDefault();
           event?.stopPropagation();
           if (data?.error) {
-            window.alert(`${dotclear.embed_media.request_error} ${data.error}`);
+            globalThis.alert(`${dotclear.embed_media.request_error} ${data.error}`);
           } else {
-            window.alert(`${dotclear.embed_media.unknown_error}`);
+            globalThis.alert(`${dotclear.embed_media.unknown_error}`);
           }
           return;
         }
