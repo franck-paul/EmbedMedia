@@ -62,7 +62,7 @@ class FrontendHelper
         );
         # --BEHAVIOR-- publicPostBeforeGetPosts -- ArrayObject, string|null
         App::behavior()->callBehavior('publicPostBeforeGetPosts', $params, $args);
-        $rs = App::blog()->getPosts($params);
+        $rs = App::blog()->getPosts($params->getArrayCopy());
         if ($rs->isEmpty()) {
             // Unable to retrieve entry
             return 404;
