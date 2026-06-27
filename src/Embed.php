@@ -174,9 +174,10 @@ class Embed
     {
         $return = false;
 
-        switch ($data?->type) { // @phpstan-ignore-line
+        switch ($data?->type) { // @phpstan-ignore nullsafe.neverNull, property.notFound
             case 'photo':
-                if (!$data?->url || !$data?->width || !$data?->height) {     // @phpstan-ignore-line
+                /* @phpstan-ignore nullsafe.neverNull, property.notFound, nullsafe.neverNull, property.notFound, nullsafe.neverNull, property.notFound */
+                if (!$data?->url || !$data?->width || !$data?->height) {
                     break;
                 }
 
@@ -192,14 +193,14 @@ class Embed
                     break;
                 }
 
-                $title  = $data?->title && is_string($data->title) ? (string) $data->title : '';    // @phpstan-ignore-line
+                $title  = $data?->title && is_string($data->title) ? (string) $data->title : ''; // @phpstan-ignore nullsafe.neverNull, property.notFound
                 $return = '<a href="' . filter_var($url, FILTER_VALIDATE_URL) . '"><img src="' . filter_var($data->url, FILTER_VALIDATE_URL) . '" alt="' . Html::escapeHTML($title) . '" width="' . Html::escapeHTML((string) $data->width) . '" height="' . Html::escapeHTML((string) $data->height) . '" /></a>';
 
                 break;
 
             case 'video':
             case 'rich':
-                if ($data?->html && is_string($data->html)) {   // @phpstan-ignore-line
+                if ($data?->html && is_string($data->html)) {   // @phpstan-ignore nullsafe.neverNull, property.notFound
                     $return = $data->html;
                 }
 
@@ -210,7 +211,7 @@ class Embed
                     break;
                 }
 
-                if ($data?->title && is_string($data->title)) { // @phpstan-ignore-line
+                if ($data?->title && is_string($data->title)) { // @phpstan-ignore nullsafe.neverNull, property.notFound
                     $return = '<a href="' . filter_var($url, FILTER_VALIDATE_URL) . '">' . Html::escapeHTML($data->title) . '</a>';
                 }
 
@@ -487,7 +488,7 @@ class Embed
         if ($doc->loadHTML('<link ' . $link . ' />')) {
             $links = $doc->getElementsByTagName('link');
             foreach ($links as $node) {
-                if ($node->hasAttributes()) {   // @phpstan-ignore-line: a DOMNode may not have attributes!
+                if ($node->hasAttributes()) {
                     foreach ($node->attributes as $a) {
                         $attributes[mb_strtolower($a->name)] = $a->value;
                     }
