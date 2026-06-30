@@ -79,9 +79,9 @@ class FrontendHelper
         // Get entry content and metadata
         $rs->extend(Post::class);
 
-        $title      = is_string($title = $rs->post_title) ? $title : '';
+        $title      = $rs->strField('post_title');
         $author     = is_string($author = $rs->getAuthorCN()) ? $author : '';
-        $author_url = is_string($author_url = $rs->user_url) ? $author_url : '';
+        $author_url = $rs->strField('user_url');
         $href       = is_string($href = $rs->getURL()) ? $href : '';
 
         $link = ($author !== '' ? $author . ' - ' : '') . '<a href="' . $href . '">' . $title . '</a>';
