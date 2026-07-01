@@ -298,8 +298,6 @@ class Embed
 
     /**
      * Parses a json response body.
-     *
-     * @return object|false
      */
     private function parseJson(string $body): object|false
     {
@@ -310,8 +308,6 @@ class Embed
 
     /**
      * Parses an XML response body.
-     *
-     * @return object|false
      */
     private function parseXml(string $body): object|false
     {
