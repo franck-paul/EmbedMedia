@@ -37,7 +37,7 @@ class FrontendHelper
     {
         // Init default value
         App::frontend()->context()->oembed_title      = App::blog()->name();                        // will be replaced by entry title
-        App::frontend()->context()->oembed_author     = App::blog()->settings()->system->editor;    // will be replaced by entry author
+        App::frontend()->context()->oembed_author     = App::blog()->settings()->get('system')->getStr('editor');    // will be replaced by entry author
         App::frontend()->context()->oembed_author_url = App::blog()->url();                         // will be replaced by entry author URL;
 
         App::frontend()->context()->oembed_html   = '';

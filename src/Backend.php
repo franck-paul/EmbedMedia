@@ -38,7 +38,7 @@ class Backend
         }
 
         $settings = My::settings();
-        if ($settings->active) {
+        if ($settings->getBool('active')) {
             // Register REST methods
             App::rest()->addFunction('embedMedia', BackendRest::embedMedia(...));
 

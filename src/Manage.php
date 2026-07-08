@@ -62,9 +62,6 @@ class Manage
             return;
         }
 
-        // Variable data helpers
-        $_Int = fn (mixed $var, int $default = 0): int => $var !== null && is_numeric($val = $var) ? (int) $val : $default;
-
         $head = My::jsLoad('popup.js') .
             App::backend()->page()->jsJson('embed_media', ['embed_media' => [
                 'request_error' => __('oEmbed HTTP error:'),
@@ -88,7 +85,7 @@ class Manage
             'right'  => __('Right'),
             'center' => __('Center'),
         ];
-        $align_default = App::blog()->settings()->system->media_img_default_alignment ?: 'none';
+        $align_default = App::blog()->settings()->get('system')->getStr('media_img_default_alignment', false) ?: 'none';
         $alignments    = function () use ($options, $align_default) {
             foreach ($options as $code => $label) {
                 yield (new Radio(['media-insert-alignment', 'alignement_' . $code], $code === $align_default))
@@ -97,8 +94,8 @@ class Manage
             }
         };
 
-        $width  = $_Int(App::blog()->settings()->system->media_video_width);
-        $height = $_Int(App::blog()->settings()->system->media_video_height);
+        $width  = App::blog()->settings()->get('system')->getInt('media_video_width', false);
+        $height = App::blog()->settings()->get('system')->getInt('media_video_height', false);
 
         // Form
         echo (new Form('media-insert-form'))

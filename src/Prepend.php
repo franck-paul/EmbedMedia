@@ -34,7 +34,7 @@ class Prepend
         }
 
         $settings = My::settings();
-        if ($settings->active && $settings->provider) {
+        if ($settings->getBool('active') && $settings->getBool('provider')) {
             App::url()->register('oembed', 'oembed', '^oembed(.*?)$', FrontendUrl::oembed(...));
         }
 

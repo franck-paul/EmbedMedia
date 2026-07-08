@@ -54,11 +54,11 @@ class BackendBehaviors
                 'align_left'        => __('Left'),
                 'align_right'       => __('Right'),
                 'align_center'      => __('Center'),
-                'align_default'     => App::blog()->settings()->system->media_img_default_alignment ?: 'none',
+                'align_default'     => App::blog()->settings()->get('system')->getStr('media_img_default_alignment', false) ?: 'none',
                 'maxwidth'          => __('Max width:'),
                 'maxheight'         => __('Max height:'),
-                'maxwidth_default'  => App::blog()->settings()->system->media_video_width,
-                'maxheight_default' => App::blog()->settings()->system->media_video_height,
+                'maxwidth_default'  => App::blog()->settings()->get('system')->getInt('media_video_width'),
+                'maxheight_default' => App::blog()->settings()->get('system')->getInt('media_video_height'),
                 'invalid_number'    => __('Width and height must be empty or a positive integer.'),
                 'caption'           => __('Caption:'),
                 'class'             => [
@@ -94,12 +94,12 @@ class BackendBehaviors
         ->legend((new Legend(__('Embedding of external media with editors'))))
         ->fields([
             (new Para())->items([
-                (new Checkbox('embedmedia_active', (bool) $settings->active))
+                (new Checkbox('embedmedia_active', $settings->getBool('active', false)))
                     ->value(1)
                     ->label((new Label(__('Enable external media embedding with editors on this blog'), Label::INSIDE_TEXT_AFTER))),
             ]),
             (new Para())->items([
-                (new Checkbox('embedmedia_provider', (bool) $settings->provider))
+                (new Checkbox('embedmedia_provider', $settings->getBool('provider', false)))
                     ->value(1)
                     ->label((new Label(__('Enable this blog as an external media provider'), Label::INSIDE_TEXT_AFTER))),
             ]),
