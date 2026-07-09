@@ -80,14 +80,14 @@ class FrontendHelper
         $rs->extend(Post::class);
 
         $title      = $rs->strField('post_title');
-        $author     = is_string($author = $rs->getAuthorCN()) ? $author : '';
+        $author     = $rs->getAuthorCN();
         $author_url = $rs->strField('user_url');
-        $href       = is_string($href = $rs->getURL()) ? $href : '';
+        $href       = $rs->getURL();
 
         $link = ($author !== '' ? $author . ' - ' : '') . '<a href="' . $href . '">' . $title . '</a>';
 
-        $excerpt = is_string($excerpt = $rs->getExcerpt(true)) ? $excerpt : '';
-        $content = is_string($content = $rs->getContent(true)) ? $content : '';
+        $excerpt = $rs->getExcerpt(true);
+        $content = $rs->getContent(true);
 
         $html = $excerpt . ($excerpt !== '' ? ' ' : '') . $content;
         if ($html === '') {
