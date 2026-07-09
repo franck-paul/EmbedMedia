@@ -68,7 +68,7 @@ class FrontendHelper
             return 404;
         }
 
-        if ($rs->post_password) {
+        if ($rs->strField('post_password') !== '') {
             // Password protected entry
             return 401;
         }
