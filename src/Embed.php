@@ -30,7 +30,7 @@ class Embed
      * Key = regular expression/URL
      * Value = [ oembed service provider URL, use regular expression (see key) ]
      */
-    protected array $providers = [];
+    protected array $providers;
 
     /**
      * Last error code from HTTP fetch
@@ -40,7 +40,7 @@ class Embed
     /**
      * @var array<string, callable>
      */
-    protected array $parsers = [];
+    protected array $parsers;
 
     public function __construct(
         protected ?string $host = null,
@@ -314,7 +314,7 @@ class Embed
         $errors = libxml_use_internal_errors(true);
 
         $dom = new DOMDocument();
-        if (!$dom->loadXML($body)) {
+        if ($body === '' || !$dom->loadXML($body)) {
             return false;
         }
 
