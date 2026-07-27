@@ -177,11 +177,17 @@ class Embed
         switch ($data?->type) { // @phpstan-ignore nullsafe.neverNull, property.notFound
             case 'photo':
                 /* @phpstan-ignore nullsafe.neverNull, property.notFound, nullsafe.neverNull, property.notFound, nullsafe.neverNull, property.notFound */
-                if (!$data?->url || !$data?->width || !$data?->height) {
+                if (!$data?->url
+                    || !$data?->width
+                    || !$data?->height
+                ) {
                     break;
                 }
 
-                if (!is_string($data->url) || !is_numeric($data->width) || !is_numeric($data->height)) {
+                if (!is_string($data->url)
+                    || !is_numeric($data->width)
+                    || !is_numeric($data->height)
+                ) {
                     break;
                 }
 
