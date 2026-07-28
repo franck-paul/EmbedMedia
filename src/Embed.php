@@ -174,12 +174,16 @@ class Embed
     {
         $return = false;
 
-        switch ($data?->type) { // @phpstan-ignore nullsafe.neverNull, property.notFound
+        $type = property_exists($data, 'type') ? $data->type : '';
+        if ($type === '') {
+            return false;
+        }
+
+        switch ($type) {
             case 'photo':
-                /* @phpstan-ignore nullsafe.neverNull, property.notFound, nullsafe.neverNull, property.notFound, nullsafe.neverNull, property.notFound */
-                if (!$data?->url
-                    || !$data?->width
-                    || !$data?->height
+                if (!property_exists($data, 'url')
+                    || !property_exists($data, 'width')
+                    || !property_exists($data, 'height')
                 ) {
                     break;
                 }
@@ -199,14 +203,14 @@ class Embed
                     break;
                 }
 
-                $title  = $data?->title && is_string($data->title) ? (string) $data->title : ''; // @phpstan-ignore nullsafe.neverNull, property.notFound
+                $title  = property_exists($data, 'title') && is_string($data->title) ? (string) $data->title : '';
                 $return = '<a href="' . filter_var($url, FILTER_VALIDATE_URL) . '"><img src="' . filter_var($data->url, FILTER_VALIDATE_URL) . '" alt="' . Html::escapeHTML($title) . '" width="' . Html::escapeHTML((string) $data->width) . '" height="' . Html::escapeHTML((string) $data->height) . '" /></a>';
 
                 break;
 
             case 'video':
             case 'rich':
-                if ($data?->html && is_string($data->html)) {   // @phpstan-ignore nullsafe.neverNull, property.notFound
+                if (property_exists($data, 'html') && is_string($data->html)) {
                     $return = $data->html;
                 }
 
@@ -217,7 +221,7 @@ class Embed
                     break;
                 }
 
-                if ($data?->title && is_string($data->title)) { // @phpstan-ignore nullsafe.neverNull, property.notFound
+                if (property_exists($data, 'title') && is_string($data->title)) {
                     $return = '<a href="' . filter_var($url, FILTER_VALIDATE_URL) . '">' . Html::escapeHTML($data->title) . '</a>';
                 }
 
