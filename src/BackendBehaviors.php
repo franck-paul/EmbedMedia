@@ -73,11 +73,11 @@ class BackendBehaviors
     }
 
     /**
-     * @param      ArrayObject<int, array{name:string, url:string, button:string}>  $extraPlugins  The extra plugins
+     * @param      ArrayObject<int, array{name:string, url:string, button:string}>  $arrayObject  The extra plugins
      */
-    public static function ckeditorExtraPlugins(ArrayObject $extraPlugins): string
+    public static function ckeditorExtraPlugins(ArrayObject $arrayObject): string
     {
-        $extraPlugins[] = [
+        $arrayObject[] = [
             'name'   => 'embedmedia',
             'button' => 'EmbedMedia',
             'url'    => urldecode(App::config()->adminUrl() . App::backend()->page()->getPF(My::id() . '/cke-addon/')),

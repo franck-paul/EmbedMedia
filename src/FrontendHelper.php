@@ -54,15 +54,15 @@ class FrontendHelper
         }
 
         // Get entry from DB
-        $params = new ArrayObject(
+        $arrayObject = new ArrayObject(
             [
                 'post_type' => '',          // Any entry type is ok
                 'post_url'  => $url_args,
             ]
         );
         # --BEHAVIOR-- publicPostBeforeGetPosts -- ArrayObject, string|null
-        App::behavior()->callBehavior('publicPostBeforeGetPosts', $params, $args);
-        $rs = App::blog()->getPosts($params->getArrayCopy());
+        App::behavior()->callBehavior('publicPostBeforeGetPosts', $arrayObject, $args);
+        $rs = App::blog()->getPosts($arrayObject->getArrayCopy());
         if ($rs->isEmpty()) {
             // Unable to retrieve entry
             return 404;

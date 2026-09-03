@@ -323,22 +323,22 @@ class Embed
     {
         $errors = libxml_use_internal_errors(true);
 
-        $dom = new DOMDocument();
-        if ($body === '' || !$dom->loadXML($body)) {
+        $domDocument = new DOMDocument();
+        if ($body === '' || !$domDocument->loadXML($body)) {
             return false;
         }
 
-        if (isset($dom->doctype)) {
+        if (isset($domDocument->doctype)) {
             return false;
         }
 
-        foreach ($dom->childNodes as $child) {
+        foreach ($domDocument->childNodes as $child) {
             if (XML_DOCUMENT_TYPE_NODE === $child->nodeType) {
                 return false;
             }
         }
 
-        $xml = simplexml_import_dom($dom);
+        $xml = simplexml_import_dom($domDocument);
         if (!$xml instanceof SimpleXMLElement) {
             return false;
         }
@@ -489,10 +489,10 @@ class Embed
      */
     protected function parseLinkAttributes(string $link): array
     {
-        $attributes = [];
-        $doc        = new DOMDocument();
-        if ($doc->loadHTML('<link ' . $link . ' />')) {
-            $links = $doc->getElementsByTagName('link');
+        $attributes  = [];
+        $domDocument = new DOMDocument();
+        if ($domDocument->loadHTML('<link ' . $link . ' />')) {
+            $links = $domDocument->getElementsByTagName('link');
             foreach ($links as $node) {
                 if ($node->hasAttributes()) {
                     foreach ($node->attributes as $a) {
