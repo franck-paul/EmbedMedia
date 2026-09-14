@@ -33,7 +33,7 @@ dotclear.ready(() => {
 
     const waiting = document.querySelector('.ac_waiting');
     if (waiting) {
-      waiting.style.width = '4em';
+      waiting.style.inlineSize = '4em';
     }
 
     const maxwidth = Number.parseInt(form.querySelector('#media-insert-maxwidth')?.value);
