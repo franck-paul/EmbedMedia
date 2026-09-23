@@ -226,9 +226,6 @@ class Embed
                 }
 
                 break;
-
-            default:
-                $return = false;
         }
 
         return $return;
