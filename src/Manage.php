@@ -139,13 +139,13 @@ class Manage
                         (new Para())
                             ->class('field')
                             ->items([
-                                (new Number('media-insert-maxwidth', 0, 999, $width))
+                                (new Number('media-insert-maxwidth', 0, 9999, $width))
                                     ->label(new Label(__('Width'), Label::OL_TF)),
                             ]),
                         (new Para())
                             ->class('field')
                             ->items([
-                                (new Number('media-insert-maxheight', 0, 999, $height))
+                                (new Number('media-insert-maxheight', 0, 9999, $height))
                                     ->label(new Label(__('Height'), Label::OL_TF)),
                             ]),
                         (new Note())
