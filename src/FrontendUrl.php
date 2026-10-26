@@ -41,7 +41,7 @@ class FrontendUrl extends Url
             self::errorPage(400);
         }
 
-        if (!str_starts_with($url, (string) App::blog()->url())) {
+        if (!str_starts_with($url, App::blog()->url())) {
             // Requested URL must starts with the blog URL
             self::errorPage(400);
         }
@@ -83,7 +83,7 @@ class FrontendUrl extends Url
         }
 
         // Remove blog URL from start of requested URL
-        $url    = substr($url, strlen((string) App::blog()->url()));
+        $url    = substr($url, strlen(App::blog()->url()));
         $status = FrontendHelper::oEmbedEntry($url, $maxwidth, $maxheight, $format, $args);
         if ($status === 200) {
             if ($format === 'xml') {

@@ -203,7 +203,7 @@ class Embed
                     break;
                 }
 
-                $title  = property_exists($data, 'title') && is_string($data->title) ? (string) $data->title : '';
+                $title  = property_exists($data, 'title') && is_string($data->title) ? $data->title : '';
                 $return = '<a href="' . filter_var($url, FILTER_VALIDATE_URL) . '"><img src="' . filter_var($data->url, FILTER_VALIDATE_URL) . '" alt="' . Html::escapeHTML($title) . '" width="' . Html::escapeHTML((string) $data->width) . '" height="' . Html::escapeHTML((string) $data->height) . '" /></a>';
 
                 break;
