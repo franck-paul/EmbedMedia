@@ -107,7 +107,7 @@ class FrontendUrl extends Url
         ];
 
         header('Content-Type: text/html; charset=UTF-8');
-        if (in_array($code, $codes)) {
+        if (in_array($code, array_keys($codes), true)) {
             Http::head($code, $codes[$code]);
         } else {
             Http::head(503, 'Service Unavailable');
