@@ -34,7 +34,7 @@ class Frontend
         }
 
         $settings = My::settings();
-        if ($settings->getBool('active') && $settings->getBool('provider')) {
+        if ($settings->getBool('active', false) && $settings->getBool('provider', false)) {
             App::behavior()->addBehaviors([
                 'publicBeforeDocumentV2' => FrontendBehaviors::addTplPath(...),
                 'publicHeadContent'      => FrontendBehaviors::publicHeadContent(...),

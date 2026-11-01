@@ -33,7 +33,7 @@ class BackendRest
         ];
 
         $url = $get['url'] ?? '';
-        if ($url) {
+        if ($url !== '') {
             $maxwidth  = (int) ($get['maxwidth'] ?? 0);
             $maxheight = (int) ($get['maxheight'] ?? 0);
 

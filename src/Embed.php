@@ -143,7 +143,7 @@ class Embed
     public function getHtml(string $url, array $args = []): string|false
     {
         $provider = $this->getProvider($url);
-        if (!$provider) {
+        if ($provider === false) {
             return false;
         }
 
@@ -310,7 +310,7 @@ class Embed
     {
         $data = json_decode(trim($body));
 
-        return ($data && is_object($data)) ? $data : false;
+        return is_object($data) ? $data : false;
     }
 
     /**
@@ -369,14 +369,14 @@ class Embed
                 $matchmask = '#' . str_replace('___wildcard___', '(.+)', preg_quote(str_replace('*', '___wildcard___', $matchmask), '#')) . '#i';
             }
 
-            if (preg_match($matchmask, $url)) {
+            if ((bool) preg_match($matchmask, $url)) {
                 $provider = str_replace('{format}', 'json', $providerurl); // JSON is easier to deal with than XML.
 
                 break;
             }
         }
 
-        if (!$provider && $this->discover) {
+        if ($provider === false && $this->discover) {
             return $this->discover($url);
         }
 
@@ -429,21 +429,21 @@ class Embed
 
         // Strip <body>.
         $html_head_end = mb_stripos((string) $response, '</head>');
-        if ($html_head_end) {
+        if ($html_head_end !== false) {
             $response = mb_substr((string) $response, 0, $html_head_end);
         }
 
         // Do a quick check.
         $tagfound = false;
         foreach (array_keys($linktypes) as $linktype) {
-            if (mb_stripos((string) $response, $linktype)) {
+            if (mb_stripos((string) $response, $linktype) !== false) {
                 $tagfound = true;
 
                 break;
             }
         }
 
-        if ($tagfound && preg_match_all('#<link([^<>]+)/?>#iU', (string) $response, $links)) {
+        if ($tagfound && (bool) preg_match_all('#<link([^<>]+)/?>#iU', (string) $response, $links)) {
             foreach ($links[1] as $link) {
                 $attributes = $this->parseLinkAttributes($link);
                 if (!isset($attributes['type'])) {
