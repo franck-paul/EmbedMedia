@@ -18,9 +18,9 @@ if (isset($this) && is_object($this) && method_exists($this, 'registerModule') &
         'EmbedMedia',
         'Embed external media from Internet',
         'Franck Paul',
-        '3.0',
+        '3.1',
         [
-            'date'     => '2026-08-03T09:54:22+0200',
+            'date'     => '2026-11-07T16:48:07+0100',
             'requires' => [
                 ['core', '2.39'],
                 ['TemplateHelper'],
